@@ -313,7 +313,7 @@ if (mysqli_num_rows($categories_run) > 0) {
                 </div>
                 <ul class="offcanvas-cart-action-button">
                     <li><a href="cart.html" class="btn btn-block btn-golden">View Cart</a></li>
-                    <li><a href="compare.html" class=" btn btn-block btn-golden mt-5">Checkout</a></li>
+                    <li><a href="compare.html" class=" btn btn-block btn-golden mt-5">Campare</a></li>
                 </ul>
             </div> <!-- End  Offcanvas Addcart Wrapper -->
 
