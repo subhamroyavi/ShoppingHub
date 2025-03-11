@@ -233,9 +233,9 @@ if (mysqli_num_rows($categories_run) > 0) {
                 </ul>
 
                 <ul class="user-link">
-                    <li><a href="wishlist.html">Wishlist</a></li>
-                    <li><a href="cart.html">Cart</a></li>
-                    <li><a href="checkout.html">Checkout</a></li>
+                    <li><a href="login.php">Login</a></li>
+                    <li><a href="registration.php">Registration</a></li>
+                    <li><a href="log_out.php">Log out</a></li>
                 </ul>
             </div>
             <!-- End Mobile contact Info -->
