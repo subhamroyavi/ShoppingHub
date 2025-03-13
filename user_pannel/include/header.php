@@ -57,7 +57,14 @@ if (mysqli_num_rows($categories_run) > 0) {
                                 <div class="logo">
                                     <a href="index.php" class="d-flex align-items-center text-decoration-none">
                                         <img src="assets/images/logo/logo-icon-black.png" alt="Logo" class="logo-icon me-2">
-                                        <h4 class="mb-0 fw-bold text-dark logo-text"><strong>Shopping Hub</strong></h4>
+                                        <h4 class="mb-0 fw-bold text-dark logo-text">
+                                            <div class="brand-text text-start">
+                                                <span class="d-block"><strong>Shopping</strong></span>
+                                                <span class="d-block"><strong>Hub</strong></span>
+                                            </div>
+                                        </h4>
+
+                                        <!-- <h4 class="mb-0 fw-bold text-dark logo-text"><strong>Shopping Hub</strong></h4> -->
                                     </a>
                                 </div>
                             </div>
@@ -228,7 +235,13 @@ if (mysqli_num_rows($categories_run) > 0) {
                 <div class="logo text-center">
                     <a href="index.php" class="d-flex align-items-center justify-content-center text-decoration-none">
                         <img src="assets/images/logo/logo-icon-black.png" alt="Logo" class="logo-icon me-2">
-                        <h4 class="mb-0 fw-bold text-light logo-text"><strong>Shopping Hub</strong></h4>
+                        <!-- <h4 class="mb-0 fw-bold text-light logo-text"><strong>Shopping Hub</strong></h4> -->
+                        <h4 class="mb-0 fw-bold text-light logo-text">
+                            <div class="brand-text text-start">
+                                <span class="d-block"><strong>Shopping</strong></span>
+                                <span class="d-block"><strong>Hub</strong></span>
+                            </div>
+                        </h4>
                     </a>
                 </div>
 
@@ -256,9 +269,9 @@ if (mysqli_num_rows($categories_run) > 0) {
                 } else {
                 ?>
                     <address class="address">
-                        <span>Address: Your address goes here.</span>
-                        <span>Call Us: 0123456789, 0123456789</span>
+                        <span>Hi! WellCome to Our Website</span>
                         <span>Email: demo@example.com</span>
+                        <span>Call Us: 0123456789, 0123456789</span>
                     </address>
 
                     <ul class="social-link">

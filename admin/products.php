@@ -4,6 +4,11 @@ include 'includes/header.php';
 include 'includes/navbar.php';
 include 'includes/sidebar.php';
 
+if (empty($_SESSION['admin_id'])) {
+    echo "<script>window.location.href='login.php';</script>";
+    exit();
+}
+
 // Fetch products with category names
 $sql = "SELECT p.*, c.c_name AS category_name 
         FROM products p 
@@ -31,7 +36,7 @@ if (!$category_result) {
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Products</li>
                         </ol>
                     </div>

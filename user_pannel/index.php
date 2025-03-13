@@ -21,29 +21,33 @@ include "include/connection.php";
             ?>
                     <!-- Hero Single Slider Item -->
                     <div class="hero-single-slider-item swiper-slide">
-                        <div class="hero-slider-bg">
-                            <img src="../admin/<?php echo $carousel_items['image']; ?>" alt="<?php echo htmlspecialchars($carousel_items['title']); ?>">
-                        </div>
-                        <div class="hero-slider-wrapper">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-auto">
-                                        <div class="hero-slider-content">
-                                            <h1 class="subtitle"><?php echo $carousel_items['title']; ?></h1>
-                                            <?php
-                                            $subtitle = explode('from ', $carousel_items['subtitle'], 2); // Splits into 2 parts
-                                            ?>
-                                            <h2 class="title">
-                                                <?php echo htmlspecialchars($subtitle[0]); ?><br>
-                                                <?php echo isset($subtitle[1]) ? htmlspecialchars($subtitle[1]) : ''; ?>
-                                            </h2>
-                                            <a href="product-details-default.html" class="btn btn-lg btn-outline-golden">Shop Now</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <div class="hero-slider-bg">
+        <!-- Background Image -->
+        <img src="../admin/<?php echo $carousel_items['image']; ?>" alt="<?php echo htmlspecialchars($carousel_items['title']); ?>" class="img-fluid w-100">
+    </div>
+    <div class="hero-slider-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-auto">
+                    <div class="hero-slider-content">
+                        <!-- Subtitle -->
+                        <h1 class="subtitle"><?php echo $carousel_items['title']; ?></h1>
+                        <?php
+                        $subtitle = explode('from ', $carousel_items['subtitle'], 2); // Splits into 2 parts
+                        ?>
+                        <!-- Title -->
+                        <h2 class="title">
+                            <?php echo htmlspecialchars($subtitle[0]); ?><br>
+                            <?php echo isset($subtitle[1]) ? htmlspecialchars($subtitle[1]) : ''; ?>
+                        </h2>
+                        <!-- Button -->
+                        <a href="product-details-default.html" class="btn btn-lg btn-outline-golden">Shop Now</a>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                     <!-- End Hero Single Slider Item -->
                 <?php } ?>
         </div>
@@ -510,6 +514,35 @@ include "include/connection.php";
 <!-- End Instagramr Section -->
 <!-- Include Swiper JS and CSS -->
 
+<style>
+    /* Custom CSS for Hero Section */
+.hero-single-slider-item {
+    height: 80vh; /* Adjust height as needed */
+    position: relative;
+    overflow: hidden;
+}
 
+.hero-slider-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the entire area */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Places the image behind the content */
+}
+
+.hero-slider-wrapper {
+    height: 100%;
+    display: flex;
+    align-items: center; /* Vertically centers the content */
+    justify-content: center; /* Horizontally centers the content */
+}
+
+.hero-slider-content {
+    text-align: center;
+    color: white; /* Adjust text color as needed */
+}
+    </style>
 
 <?php include "include/footer.php" ?>

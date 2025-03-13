@@ -1,8 +1,14 @@
 <?php
+// session_start();
 include 'connection.php'; // Database connection
 include 'includes/header.php'; // Header file
 include 'includes/navbar.php'; // Navbar file
 include 'includes/sidebar.php'; // Sidebar file
+
+if (empty($_SESSION['admin_id'])) {
+    echo "<script>window.location.href='login.php';</script>";
+    exit();
+}
 
 // Fetch categories from the database
 $sql = "SELECT * FROM categories ORDER BY id DESC";
@@ -23,7 +29,7 @@ if (!$sql_run) {
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Categories</li>
                         </ol>
                     </div>

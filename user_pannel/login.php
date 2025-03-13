@@ -16,7 +16,7 @@ if (isset($_POST['login'])) {
     $password = $_POST['password']; // Password will be hashed and verified
 
     // Fetch user from the database
-    $sql = "SELECT * FROM users WHERE (email = '$email' OR phone = '$phone')";
+    $sql = "SELECT * FROM users WHERE (email = '$email' OR phone = '$phone') AND status = 'active'";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) == 1) {
