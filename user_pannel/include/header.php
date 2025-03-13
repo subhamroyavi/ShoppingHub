@@ -86,7 +86,7 @@ if (mysqli_num_rows($categories_run) > 0) {
                                                                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                                                                     <div class="mega-menu-column">
                                                                         <h6 class="mega-menu-item-title mb-3">
-                                                                            <a href="#" class="text-dark font-weight-bold"><?php echo htmlspecialchars($category['c_name']); ?></a>
+                                                                            <a href="#" class="text-dark font-weight-bold"><?php echo ($category['c_name']); ?></a>
                                                                         </h6>
                                                                         <ul class="list-unstyled">
                                                                             <li class="mb-2"><a href="shop-grid-sidebar-left.html" class="text-muted">Grid Left Sidebar</a></li>
@@ -234,7 +234,7 @@ if (mysqli_num_rows($categories_run) > 0) {
 
                 <ul class="user-link">
                     <li><a href="login.php">Login</a></li>
-                    <li><a href="registration.php">Registration</a></li>
+                    <li><a href="register.php">Register</a></li>
                     <li><a href="log_out.php">Log out</a></li>
                 </ul>
             </div>
