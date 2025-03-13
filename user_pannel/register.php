@@ -1,9 +1,12 @@
 <?php
-// Start session
-session_start();
 include "include/header.php";
-// Include necessary files
 include "include/connection.php";
+
+if (!empty($_SESSION['user_id'])) {
+    echo "<script>window.location.href='index.php';</script>";
+    exit();
+}
+
 
 // Handle Registration
 if (isset($_POST['register'])) {
@@ -366,5 +369,6 @@ if (isset($_POST['register'])) {
         });
     });
 </script>
+
 
 <?php include "include/footer.php"; ?>

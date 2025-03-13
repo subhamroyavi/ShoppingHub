@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'connection.php';
 
 $categories_sql = "SELECT * FROM categories";
@@ -164,8 +165,16 @@ if (mysqli_num_rows($categories_run) > 0) {
                                 <li>
                                     <a href="index.html">
                                         <div class="logo">
-                                            <img src="assets/images/logo/logo_black.png" alt="">
+                                            <!-- <img src="assets/images/logo/logo_black.png" alt=""> -->
+                                            <img src="assets/images/logo/logo-icon-black.png" alt="Logo" class="logo-icon me-2">
+                                            <h4 class="mb-0 fw-bold text-light logo-text"><strong>Shopping Hub</strong></h4>
                                         </div>
+                                        <!-- <div class="logo">
+                                            <a href="index.php" class="d-flex align-items-center text-decoration-none">
+                                                <img src="assets/images/logo/logo-icon-black.png" alt="Logo" class="logo-icon me-2">
+                                                <h4 class="mb-0 fw-bold text-dark logo-text"><strong>Shopping Hub</strong></h4>
+                                            </a>
+                                        </div> -->
                                     </a>
                                 </li>
                             </ul>
@@ -215,28 +224,55 @@ if (mysqli_num_rows($categories_run) > 0) {
             <!-- Start Offcanvas Mobile Menu Wrapper -->
             <!-- Start Mobile contact Info -->
             <div class="mobile-contact-info">
-                <div class="logo">
-                    <a href="index.html"><img src="assets/images/logo/logo_white.png" alt=""></a>
+                <!-- Centered Logo Section -->
+                <div class="logo text-center">
+                    <a href="index.php" class="d-flex align-items-center justify-content-center text-decoration-none">
+                        <img src="assets/images/logo/logo-icon-black.png" alt="Logo" class="logo-icon me-2">
+                        <h4 class="mb-0 fw-bold text-light logo-text"><strong>Shopping Hub</strong></h4>
+                    </a>
                 </div>
 
-                <address class="address">
-                    <span>Address: Your address goes here.</span>
-                    <span>Call Us: 0123456789, 0123456789</span>
-                    <span>Email: demo@example.com</span>
-                </address>
+                <!-- Rest of the content -->
+                <?php
+                if (!empty($_SESSION['user_id'])) {
+                ?>
+                    <address class="address">
+                        <span>Email: <?php echo $_SESSION['user_email'] ?></span>
+                        <span>Phone number: <?php echo $_SESSION['user_phone'] ?></span>
+                    </address>
 
-                <ul class="social-link">
-                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                    <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                </ul>
+                    <ul class="social-link">
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                    </ul>
 
-                <ul class="user-link">
-                    <li><a href="login.php">Login</a></li>
-                    <li><a href="register.php">Register</a></li>
-                    <li><a href="log_out.php">Log out</a></li>
-                </ul>
+                    <ul class="user-link">
+                        <li><a href="my_account.php">My Account</a></li>
+                        <li><a href="log_out.php">Log out</a></li>
+                    </ul>
+                <?php
+                } else {
+                ?>
+                    <address class="address">
+                        <span>Address: Your address goes here.</span>
+                        <span>Call Us: 0123456789, 0123456789</span>
+                        <span>Email: demo@example.com</span>
+                    </address>
+
+                    <ul class="social-link">
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                    </ul>
+                    <ul class="user-link">
+                        <li><a href="login.php">Login / Register</a></li>
+                    </ul>
+                <?php
+                }
+                ?>
             </div>
             <!-- End Mobile contact Info -->
         </div> <!-- ...:::: End Offcanvas Mobile Menu Section:::... -->
