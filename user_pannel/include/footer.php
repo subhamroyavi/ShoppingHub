@@ -111,9 +111,9 @@
                         class="row justify-content-between align-items-center align-items-center flex-column flex-md-row mb-n6">
                         <div class="col-auto mb-6">
                             <div class="footer-copyright">
-                                <p class="copyright-text">&copy; 2021 <a href="index.html">therankme</a>. Made with <i
-                                        class="fa fa-heart text-danger"></i> by <a href="https://therankme.com/"
-                                        target="_blank">therankme</a> </p>
+                                <p class="copyright-text">&copy; 2025 <a href="index.php">Shopping Hub</a>. Made with <i
+                                        class="fa fa-heart text-danger"></i> by <a href="index.php"
+                                        target="_blank">Shopping Hub</a> </p>
 
                             </div>
                         </div>

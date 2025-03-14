@@ -2,12 +2,16 @@
 session_start();
 include "connection.php";
 
+$sql = "SELECT * FROM `admin` WHERE admin_id = '$_SESSION[admin_id]'";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
 
-// if (!empty($_SESSION['admin_id'])) {
-//     echo "<script>window.location.href='index.php';</script>";
-//     exit();
-
-// }
+$_SESSION['admin_id'] = $row['admin_id'];
+$_SESSION['admin_email'] = $row['email'];
+$_SESSION['admin_phone'] = $row['phone'];
+$_SESSION['firstname'] = $row['firstname'];
+$_SESSION['lastname'] = $row['lastname'];
+$_SESSION['image'] = $row['image'];
 
 ?>
 <!-- <nav class="app-header navbar navbar-expand bg-body"> -->
@@ -24,11 +28,16 @@ include "connection.php";
 
             <!--end::Notifications Dropdown Menu--> <!--begin::Fullscreen Toggle-->
             <li class="nav-item"> <a class="nav-link" href="#" data-lte-toggle="fullscreen"> <i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i> <i data-lte-icon="minimize" class="bi bi-fullscreen-exit" style="display: none;"></i> </a> </li> <!--end::Fullscreen Toggle--> <!--begin::User Menu Dropdown-->
-            <li class="nav-item dropdown user-menu"> <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"> <img src="dist/assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow" alt="User Image"> <span class="d-none d-md-inline">Alexander Pierce</span> </a>
+            <li class="nav-item dropdown user-menu">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                    <img src="<?php echo $_SESSION['image']; ?>" class="user-image rounded-circle shadow" alt="User Image">
+                    <span class="d-none d-md-inline"><?php echo $_SESSION['firstname'] . ' ' . $_SESSION['lastname'] ?></span>
+                </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end"> <!--begin::User Image-->
-                    <li class="user-header text-bg-primary"> <img src="dist/assets/img/user2-160x160.jpg" class="rounded-circle shadow" alt="User Image">
+                    <li class="user-header text-bg-primary"> <img src="<?php echo $_SESSION['image']; ?>" class="rounded-circle shadow" alt="User Image">
                         <p>
                             <?php echo $_SESSION['admin_email']; ?>
+
                             <small></small>
                         </p>
                     </li> <!--end::User Image--> <!--begin::Menu Body-->

@@ -42,7 +42,7 @@ if (isset($_POST['submit'])) {
 
 ?>
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -50,7 +50,7 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Product</title>
     <!-- Add your CSS and JS files here -->
-</head>
+<!-- </head>  -->
 
 <body>
     <div class="app-wrapper">

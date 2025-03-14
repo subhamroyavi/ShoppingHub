@@ -24,7 +24,6 @@ if (isset($_POST['submit'])) {
 
         $_SESSION['admin_id'] = $row['admin_id'];
         $_SESSION['admin_email'] = $row['email'];
-        $_SESSION['phone'] = $row['phone'];
         $_SESSION['admin_phone'] = $row['phone'];
 
         // Redirect to index page

@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Shopping Hub</title><!--begin::Primary Meta Tags-->
+    <title>Admin | Shopping Hub</title><!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="title" content="AdminLTE v4 | Dashboard">
     <meta name="author" content="ColorlibHQ">
@@ -18,11 +18,24 @@
 
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"> -->
     <!-- DataTables -->
-    <link rel="stylesheet" href="dist/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css"/>
-    <link rel="stylesheet" href="dist/plugins/datatables-responsive/css/responsive.bootstrap4.min.css"/>
-    <link rel="stylesheet" href="dist/plugins/datatables-buttons/css/buttons.bootstrap4.min.css"/>
+    <link rel="stylesheet" href="dist/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="dist/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" />
+    <link rel="stylesheet" href="dist/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" />
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- AdminLTE CSS (optional) -->
+    <link href="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/dist/css/adminlte.min.css" rel="stylesheet">
+
+     <!-- jQuery -->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.1.0/dist/js/adminlte.min.js"></script>
 
 </head> <!--end::Head--> <!--begin::Body-->
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary"> <!--begin::App Wrapper-->
-    <div class="app-wrapper"> 
+    <div class="app-wrapper">
