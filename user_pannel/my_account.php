@@ -44,7 +44,10 @@ if (isset($_POST['submit1'])) {
             WHERE `user_id` = '$user_id'";
 
     if (mysqli_query($conn, $sql)) {
-        echo "<script>alert('Primary Address inserted successfully!');</script>";
+        echo "<script>
+        alert('Primary Address inserted successfully!');
+        window.location.href='my_account.php';
+        </script>";
     } else {
         echo "<script>alert('Error: " . mysqli_error($conn) . "');</script>";
     }
@@ -69,7 +72,9 @@ if (isset($_POST['submit2'])) {
             WHERE `user_id` = '$user_id'";
 
     if (mysqli_query($conn, $sql)) {
-        echo "<script>alert('Secondary Address inserted successfully!');</script>";
+        echo "<script>alert('Secondary Address inserted successfully!'); 
+        window.location.href='my_account.php';
+        </script>";
     } else {
         echo "<script>alert('Error: " . mysqli_error($conn) . "');</script>";
     }
@@ -98,7 +103,9 @@ if (isset($_POST['password'])) {
                 mysqli_stmt_bind_param($stmt, "si", $hashed_password, $_SESSION['user_id']);
 
                 if (mysqli_stmt_execute($stmt)) {
-                    echo "<script>alert('Password changed successfully!');</script>";
+                    echo "<script>alert('Password changed successfully!'); 
+                          window.location.href='my_account.php';
+                          </script>";
                 } else {
                     echo "<script>alert('Error updating password.');</script>";
                 }
@@ -297,7 +304,7 @@ if (mysqli_num_rows($result) > 0) {
                                                 <label>Old Password</label>
                                                 <div class="input-group">
                                                     <input type="password" name="old_password" id="old_password" class="form-control" placeholder="Old Password" value="" required>
-                                                    <button class="btn btn-outline-secondary toggle-password" type="button" data-target="old_password" >
+                                                    <button class="btn btn-outline-secondary toggle-password" type="button" data-target="old_password">
                                                         <i class="fa fa-eye"></i>
                                                     </button>
                                                 </div>

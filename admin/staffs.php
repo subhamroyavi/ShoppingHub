@@ -115,7 +115,9 @@ if (!$sql_run) {
                                                     <?php
                                                     $status_class = ($rows['status'] == 'active') ? 'success' : 'danger';
                                                     ?>
-                                                    <span class="badge bg-<?php echo $status_class; ?>"><?php echo ucfirst($rows['status']); ?></span>
+                                                    <span class="badge bg-<?php echo $status_class; ?>">
+                                                        <?php echo ucfirst($rows['status']); ?>
+                                                    </span>
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">

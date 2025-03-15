@@ -3,6 +3,13 @@ include 'includes/header.php';
 include 'includes/navbar.php';
 include 'includes/sidebar.php';
 
+if (empty($_SESSION['admin_id'])) {
+    echo "<script>window.location.href='login.php';</script>";
+    exit();
+}
+
+
+
 ?>
 <div class="app-wrapper">
     <main class="app-main"> <!--begin::App Content Header-->

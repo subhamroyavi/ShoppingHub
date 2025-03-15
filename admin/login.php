@@ -25,6 +25,8 @@ if (isset($_POST['submit'])) {
         $_SESSION['admin_id'] = $row['admin_id'];
         $_SESSION['admin_email'] = $row['email'];
         $_SESSION['admin_phone'] = $row['phone'];
+        $_SESSION['firstname'] = $row['firstname'];
+        $_SESSION['lastname'] = $row['lastname'];
 
         // Redirect to index page
         echo "<script>window.location.href='index.php';</script>";
