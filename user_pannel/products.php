@@ -2,11 +2,27 @@
 include "include/header.php";
 include "include/connection.php";
 
+// Pagination logic
+$productsPerPage = 12; // 3 rows x 4 products
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Current page
+$offset = ($page - 1) * $productsPerPage; // Offset for SQL query
 
+// Fetch total number of products
+$totalProductsQuery = "SELECT COUNT(*) as total FROM products WHERE status = 'active'";
+$totalProductsResult = mysqli_query($conn, $totalProductsQuery);
+$totalProducts = mysqli_fetch_assoc($totalProductsResult)['total'];
+
+// Calculate total pages
+$totalPages = ceil($totalProducts / $productsPerPage);
+
+// Fetch products for the current page
+$product_sql = "SELECT * FROM products WHERE status = 'active' ORDER BY id DESC LIMIT $productsPerPage OFFSET $offset";
+$product_sql_run = mysqli_query($conn, $product_sql);
+
+// Calculate the proper "showing X-Y of Z results" text
+$startItem = ($page - 1) * $productsPerPage + 1;
+$endItem = min($page * $productsPerPage, $totalProducts);
 ?>
-
-
-
 
 <!-- ...:::: Start Breadcrumb Section:::... -->
 <div class="breadcrumb-section breadcrumb-bg-color--golden">
@@ -48,36 +64,15 @@ include "include/connection.php";
                                     <ul class="tablist nav sort-tab-btn">
                                         <li><a class="nav-link active" data-bs-toggle="tab"
                                                 href="#layout-4-grid"><img src="assets/images/icons/bkg_grid.png"
-                                                    alt=""></a></li>
-                                        <li><a class="nav-link" data-bs-toggle="tab" href="#layout-list"><img
-                                                    src="assets/images/icons/bkg_list.png" alt=""></a></li>
+                                                    alt=""></a>
+                                        </li>
                                     </ul>
 
                                     <!-- Start Page Amount -->
                                     <div class="page-amount ml-2">
-                                        <span>Showing 1–9 of 21 results</span>
+                                        <span>Showing <?php echo $startItem; ?>–<?php echo $endItem; ?> of <?php echo $totalProducts; ?> results</span>
                                     </div> <!-- End Page Amount -->
                                 </div> <!-- End Sort tab Button -->
-
-                                <!-- Start Sort Select Option -->
-                                <div class="sort-select-list d-flex align-items-center">
-                                    <label class="mr-2">Sort By:</label>
-                                    <form action="#">
-                                        <fieldset>
-                                            <select name="speed" id="speed">
-                                                <option>Sort by average rating</option>
-                                                <option>Sort by popularity</option>
-                                                <option selected="selected">Sort by newness</option>
-                                                <option>Sort by price: low to high</option>
-                                                <option>Sort by price: high to low</option>
-                                                <option>Product Name: Z</option>
-                                            </select>
-                                        </fieldset>
-                                    </form>
-                                </div> <!-- End Sort Select Option -->
-
-
-
                             </div> <!-- Start Sort Wrapper Box -->
                         </div>
                     </div>
@@ -93,17 +88,11 @@ include "include/connection.php";
                                     <div class="tab-pane active show sort-layout-single" id="layout-4-grid">
                                         <div class="row">
                                             <?php
-                                            $product_sql = "SELECT * FROM products WHERE status = 'active' ORDER BY id DESC";
-                                            $product_sql_run = mysqli_query($conn, $product_sql);
-
                                             if (mysqli_num_rows($product_sql_run) > 0) {
                                                 while ($products = mysqli_fetch_assoc($product_sql_run)) {
-
                                             ?>
                                                     <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
                                                         <!-- Start Product Default Single Item -->
-
-
                                                         <div class="product-default-single-item product-color--golden"
                                                             data-aos="fade-up" data-aos-delay="0">
                                                             <div class="image-box">
@@ -119,12 +108,10 @@ include "include/connection.php";
                                                                             data-bs-target="#modalAddcart">Add to Cart</a>
                                                                     </div>
                                                                     <div class="action-link-right">
-                                                                        <a href="productDetails.php?id=<?php echo $products['id'] ?>" ><i
+                                                                        <a href="productDetails.php?id=<?php echo $products['id'] ?>"><i
                                                                                 class="icon-magnifier"></i></a>
                                                                         <a href="wishlist.html"><i
                                                                                 class="icon-heart"></i></a>
-                                                                        <!-- <a href="compare.html"><i
-                                                                        class="icon-shuffle"></i></a> -->
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -154,42 +141,125 @@ include "include/connection.php";
                                                                 </div>
                                                                 <div class="content-right">
                                                                     <span class="price"><del><?php echo $products['mrp_price']; ?></del><?php echo $products['price']; ?></span>
-
                                                                 </div>
-
                                                             </div>
                                                         </div>
-
                                                         <!-- End Product Default Single Item -->
                                                     </div>
-
                                             <?php
                                                 }
+                                            } else {
+                                                echo '<div class="col-12 text-center"><p>No products found</p></div>';
                                             }
                                             ?>
-
-
                                         </div>
-                                    </div> <!-- End List View Product -->
+                                    </div> <!-- End Grid View Product -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div> <!-- End Tab Wrapper -->
 
-                <!-- Start Pagination -->
-                <div class="page-pagination text-center" data-aos="fade-up" data-aos-delay="0">
-                    <ul>
-                        <li><a class="active" href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#"><i class="ion-ios-skipforward"></i></a></li>
-                    </ul>
-                </div> <!-- End Pagination -->
+                <!-- Pagination -->
+                <div class="shop-list-pagination mt-4">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <!-- First Page Link -->
+                            <?php if ($page > 1) : ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1" aria-label="First">
+                                        <span aria-hidden="true">&laquo;&laquo;</span>
+                                    </a>
+                                </li>
+                            <?php else : ?>
+                                <li class="page-item disabled">
+                                    <span class="page-link"><span aria-hidden="true">&laquo;&laquo;</span></span>
+                                </li>
+                            <?php endif; ?>
+
+                            <!-- Previous Page Link -->
+                            <?php if ($page > 1) : ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?php echo $page - 1; ?>" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                            <?php else : ?>
+                                <li class="page-item disabled">
+                                    <span class="page-link"><span aria-hidden="true">&laquo;</span></span>
+                                </li>
+                            <?php endif; ?>
+
+                            <!-- Page Numbers with Limited Display -->
+                            <?php
+                            $startPage = max(1, $page - 2);
+                            $endPage = min($totalPages, $page + 2);
+
+                            // Always show first page
+                            if ($startPage > 1) : ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1">1</a>
+                                </li>
+                                <?php if ($startPage > 2) : ?>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
+                            <!-- Page numbers between start and end -->
+                            <?php for ($i = $startPage; $i <= $endPage; $i++) : ?>
+                                <li class="page-item <?php echo ($i == $page) ? 'active' : ''; ?>">
+                                    <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                </li>
+                            <?php endfor; ?>
+
+                            <!-- Always show last page -->
+                            <?php if ($endPage < $totalPages) : ?>
+                                <?php if ($endPage < $totalPages - 1) : ?>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                <?php endif; ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?php echo $totalPages; ?>"><?php echo $totalPages; ?></a>
+                                </li>
+                            <?php endif; ?>
+
+                            <!-- Next Page Link -->
+                            <?php if ($page < $totalPages) : ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?php echo $page + 1; ?>" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            <?php else : ?>
+                                <li class="page-item disabled">
+                                    <span class="page-link"><span aria-hidden="true">&raquo;</span></span>
+                                </li>
+                            <?php endif; ?>
+
+                            <!-- Last Page Link -->
+                            <?php if ($page < $totalPages) : ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=<?php echo $totalPages; ?>" aria-label="Last">
+                                        <span aria-hidden="true">&raquo;&raquo;</span>
+                                    </a>
+                                </li>
+                            <?php else : ?>
+                                <li class="page-item disabled">
+                                    <span class="page-link"><span aria-hidden="true">&raquo;&raquo;</span></span>
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+                    </nav>
+                    <div class="page-amount text-center mt-2">
+                        <p>Showing page <?php echo $page; ?> of <?php echo $totalPages; ?> (Total products: <?php echo $totalProducts; ?>)</p>
+                    </div>
+                </div>
             </div> <!-- End Shop Product Sorting Section  -->
         </div>
     </div>
 </div> <!-- ...:::: End Shop Section:::... -->
-
 
 <?php include "include/footer.php" ?>

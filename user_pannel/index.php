@@ -288,10 +288,10 @@ include "include/connection.php";
                                             </div>
                                             <div class="content">
                                                 <div class="content-left">
-                                                    <h6 class="title"><a href="productDetails.php?id=<?php echo $products['id'] ?>">
+                                                    `<h6 class="title"><a href="productDetails.php?id=<?php echo $products['id'] ?>">
                                                             <?php echo $products['name']; ?>
                                                         </a>
-                                                    </h6>
+                                                    </h6>`
                                                     <?php
                                                     // Fetch the rating value from the database
                                                     $rating = $products['reviews']; // Assuming 'reviews' contains the rating value (e.g., 4 out of 5)
