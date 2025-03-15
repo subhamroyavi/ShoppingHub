@@ -87,10 +87,10 @@ if (mysqli_num_rows($categories_run) > 0) {
                                             </div>
                                         </div>
                                     </li>
+
                                     <li>
                                         <a href="products.php">Products</a>
                                     </li>
-
                                     <li>
                                         <a href="about-us.php">About Us</a>
                                     </li>

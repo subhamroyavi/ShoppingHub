@@ -140,7 +140,6 @@ if (mysqli_num_rows($result) > 0) {
                             <nav aria-label="breadcrumb">
                                 <ul>
                                     <li><a href="index.php">Home</a></li>
-                                    <li><a href="index.php">Shop</a></li>
                                     <li class="active" aria-current="page">My Account</li>
                                 </ul>
                             </nav>
