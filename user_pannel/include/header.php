@@ -61,7 +61,7 @@ if (mysqli_num_rows($categories_run) > 0) {
                                     </li>
 
                                     <li class="has-dropdown has-megaitem">
-                                        <a href="product-details-default.html">Shop <i class="fa fa-angle-down"></i></a>
+                                        <a href="product-details-default.html">Categories <i class="fa fa-angle-down"></i></a>
                                         <!-- Mega Menu -->
                                         <div class="mega-menu container-fluid p-0">
                                             <div class="row">
@@ -104,10 +104,32 @@ if (mysqli_num_rows($categories_run) > 0) {
 
                         <!-- Start Header Action Link -->
                         <ul class="header-action-link action-color--black action-hover-color--golden">
+
                             <li>
+
                                 <a href="#offcanvas-wishlish" class="offcanvas-toggle">
                                     <i class="icon-heart"></i>
-                                    <span class="item-count">3</span>
+                                    <span class="item-count">
+                                        <?php
+                                        if (!empty($_SESSION['user_id'])) {
+                                            $user_id = $_SESSION['user_id'];
+
+                                            // Query to count the number of wishlist items for the user
+                                            $wishlist_count_sql = "SELECT COUNT(*) AS wishlist_count FROM wishlists WHERE user_id = $user_id";
+                                            $wishlist_count_run = mysqli_query($conn, $wishlist_count_sql);
+
+                                            if ($wishlist_count_run) {
+                                                $wishlist_count_data = mysqli_fetch_assoc($wishlist_count_run);
+                                                $wishlist_count = $wishlist_count_data['wishlist_count'];
+                                                echo $wishlist_count; // Return count as JSON
+                                            } else {
+                                                echo 0; // Fallback if the query fails
+                                            }
+                                        } else {
+                                            echo 0; // Fallback if the user is not logged in
+                                        }
+                                        ?>
+                                    </span> <!-- Default value, will be updated by AJAX -->
                                 </a>
                             </li>
                             <li>
@@ -134,60 +156,6 @@ if (mysqli_num_rows($categories_run) > 0) {
         </div>
     </header>
     <!-- End Header Area -->
-
-    <!-- Start Mobile Header -->
-    <div class="mobile-header mobile-header-bg-color--golden section-fluid d-lg-block d-xl-none">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 d-flex align-items-center justify-content-between">
-                    <!-- Start Mobile Left Side -->
-                    <div class="mobile-header-left">
-                        <ul class="mobile-menu-logo">
-                            <li>
-                                <a href="index.php">
-                                    <div class="logo">
-                                        <img src="assets/images/logo/logo-icon-black.png" alt="Logo" class="logo-icon me-2">
-                                        <h4 class="mb-0 fw-bold text-light logo-text"><strong>Shopping Hub</strong></h4>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- End Mobile Left Side -->
-
-                    <!-- Start Mobile Right Side -->
-                    <div class="mobile-right-side">
-                        <ul class="header-action-link action-color--black action-hover-color--golden">
-                            <li>
-                                <a href="#search">
-                                    <i class="icon-magnifier"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#offcanvas-wishlish" class="offcanvas-toggle">
-                                    <i class="icon-heart"></i>
-                                    <span class="item-count">3</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#offcanvas-add-cart" class="offcanvas-toggle">
-                                    <i class="icon-bag"></i>
-                                    <span class="item-count">3</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#mobile-menu-offcanvas" class="offcanvas-toggle offside-menu">
-                                    <i class="icon-menu"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- End Mobile Right Side -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Mobile Header -->
 
     <!-- Start Offcanvas Mobile Menu Section -->
     <div id="offcanvas-about" class="offcanvas offcanvas-rightside offcanvas-mobile-about-section">
@@ -248,6 +216,69 @@ if (mysqli_num_rows($categories_run) > 0) {
     </div>
     <!-- End Offcanvas Mobile Menu Section -->
 
+
+
+    <!-- Start Offcanvas Wishlist Section -->
+    <div id="offcanvas-wishlish" class="offcanvas offcanvas-rightside offcanvas-add-cart-section">
+        <!-- Start Offcanvas Header -->
+        <div class="offcanvas-header text-right">
+            <button class="offcanvas-close"><i class="ion-android-close"></i></button>
+        </div> <!-- ENd Offcanvas Header -->
+
+        <!-- Start Offcanvas Mobile Menu Wrapper -->
+        <div class="offcanvas-wishlist-wrapper">
+            <h4 class="offcanvas-title">Wishlist</h4>
+            <ul class="offcanvas-wishlist">
+                <?php
+                if (!empty($_SESSION['user_id'])) {
+                    $user_id = $_SESSION['user_id'];
+
+                    // Prepare the SQL query
+                    $wishlist_sql = "SELECT wishlists.wishlist_id, products.id, products.name AS product_name, products.image, products.price 
+                    FROM wishlists
+                    JOIN users ON wishlists.user_id = users.user_id
+                    JOIN products ON wishlists.product_id = products.id
+                    WHERE users.user_id = $user_id
+                    ORDER BY wishlists.wishlist_id DESC
+                    LIMIT 4";
+                    $wishlist_sql_run = mysqli_query($conn, $wishlist_sql);
+
+                    if (mysqli_num_rows($wishlist_sql_run) > 0) {
+                        while ($row = mysqli_fetch_assoc($wishlist_sql_run)) {
+                ?>
+                            <li class="offcanvas-wishlist-item-single">
+                                <div class="offcanvas-wishlist-item-block">
+                                    <a href="#" class="offcanvas-wishlist-item-image-link">
+                                        <img src="../admin/<?php echo $row['image']; ?>" alt="<?php echo $row['product_name']; ?>" class="offcanvas-wishlist-image">
+                                    </a>
+                                    <div class="offcanvas-wishlist-item-content">
+                                        <a href="productDetails.php?id=<?php echo $row['id']; ?>" class="offcanvas-wishlist-item-link"><?php echo $row['product_name']; ?></a>
+                                        <div class="offcanvas-wishlist-item-details">
+                                            <span class="offcanvas-wishlist-item-details-quantity">1 x </span>
+                                            <span class="offcanvas-wishlist-item-details-price">$<?php echo $row['price']; ?></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="offcanvas-wishlist-item-delete text-right">
+                                    <a href="wishlistDelete.php?id=<?php echo $row['wishlist_id']; ?>" class="offcanvas-wishlist-item-delete"><i class="fa fa-trash-o"></i></a>
+                                </div>
+                            </li>
+                <?php
+                        }
+                    } else {
+                        echo '<li>No items in your wishlist.</li>';
+                    }
+                } else {
+                    echo '<li>Please log in to view your wishlist.</li>';
+                }
+                ?>
+            </ul>
+            <ul class="offcanvas-wishlist-action-button">
+                <li><a href="wishlist.php" class="btn btn-block btn-golden">View wishlist</a></li>
+            </ul>
+        </div>
+    </div>
+
     <!-- Start Offcanvas Addcart Section -->
     <div id="offcanvas-add-cart" class="offcanvas offcanvas-rightside offcanvas-add-cart-section">
         <div class="offcanvas-header text-right">
@@ -262,7 +293,7 @@ if (mysqli_num_rows($categories_run) > 0) {
                             <img src="assets/images/product/default/home-1/default-1.jpg" alt="" class="offcanvas-cart-image">
                         </a>
                         <div class="offcanvas-cart-item-content">
-                            <a href="#" class="offcanvas-cart-item-link">Car Wheel</a>
+                            <a href="#" class="offcanvas-cart-item-link">Stylish Chair</a>
                             <div class="offcanvas-cart-item-details">
                                 <span class="offcanvas-cart-item-details-quantity">1 x </span>
                                 <span class="offcanvas-cart-item-details-price">$49.00</span>
@@ -285,39 +316,6 @@ if (mysqli_num_rows($categories_run) > 0) {
         </div>
     </div>
     <!-- End Offcanvas Addcart Section -->
-
-    <!-- Start Offcanvas Wishlist Section -->
-    <div id="offcanvas-wishlish" class="offcanvas offcanvas-rightside offcanvas-add-cart-section">
-        <div class="offcanvas-header text-right">
-            <button class="offcanvas-close"><i class="ion-android-close"></i></button>
-        </div>
-        <div class="offcanvas-wishlist-wrapper">
-            <h4 class="offcanvas-title">Wishlist</h4>
-            <ul class="offcanvas-wishlist">
-                <li class="offcanvas-wishlist-item-single">
-                    <div class="offcanvas-wishlist-item-block">
-                        <a href="#" class="offcanvas-wishlist-item-image-link">
-                            <img src="assets/images/product/default/home-1/default-1.jpg" alt="" class="offcanvas-wishlist-image">
-                        </a>
-                        <div class="offcanvas-wishlist-item-content">
-                            <a href="#" class="offcanvas-wishlist-item-link">Car Wheel</a>
-                            <div class="offcanvas-wishlist-item-details">
-                                <span class="offcanvas-wishlist-item-details-quantity">1 x </span>
-                                <span class="offcanvas-wishlist-item-details-price">$49.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="offcanvas-wishlist-item-delete text-right">
-                        <a href="#" class="offcanvas-wishlist-item-delete"><i class="fa fa-trash-o"></i></a>
-                    </div>
-                </li>
-            </ul>
-            <ul class="offcanvas-wishlist-action-button">
-                <li><a href="#" class="btn btn-block btn-golden">View Wishlist</a></li>
-            </ul>
-        </div>
-    </div>
-    <!-- End Offcanvas Wishlist Section -->
 
     <!-- Start Offcanvas Search Bar Section -->
     <div id="search" class="search-modal">

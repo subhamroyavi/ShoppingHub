@@ -281,8 +281,14 @@ include "include/connection.php";
                                                     <div class="action-link-right">
                                                         <a href="productDetails.php?id=<?php echo $products['id'] ?>"><i
                                                                 class="icon-magnifier"></i></a>
-                                                        <a href="wishlist.html"><i class="icon-heart"></i></a>
-                                                        <a href="compare.html"><i class="icon-shuffle"></i></a>
+                                                        <!-- To this -->
+                                                        <!-- <a href="wishlist.php?id=<?php echo $products['id'] ?>"><i class="icon-heart"></i>
+                                                        </a> -->
+
+                                                        <a href="#" class="wishlist-link" data-product-id="<?php echo $products['id']; ?>">
+                                                            <i class="icon-heart"></i>
+                                                        </a>
+                                                        <!-- <a href="compare.html"><i class="icon-shuffle"></i></a> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -415,8 +421,10 @@ include "include/connection.php";
                                                     <div class="action-link-right">
                                                         <a href="productDetails.php?id=<?php echo $products['id'] ?>"><i
                                                                 class="icon-magnifier"></i></a>
-                                                        <a href="wishlist.html"><i class="icon-heart"></i></a>
-                                                        <a href="compare.html"><i class="icon-shuffle"></i></a>
+                                                                <a href="" class="wishlist-link" data-product-id="<?php echo $products['id']; ?>">
+                                                            <i class="icon-heart"></i>
+                                                        </a>
+                                                        <!-- <a href="compare.html"><i class="icon-shuffle"></i></a> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -503,7 +511,7 @@ include "include/connection.php";
                         </div>
                         <div class="instagram-link">
                             <h5><a href="https://www.instagram.com/myfurniturecom/" target="_blank"
-                                    rel="noopener noreferrer">HONOTEMPLATE</a></h5>
+                                    rel="noopener noreferrer">Shopping Hub</a></h5>
                         </div>
                     </div>
                 </div>
@@ -548,7 +556,39 @@ include "include/connection.php";
         text-align: center;
         color: white;
         /* Adjust text color as needed */
+
+    }
+
+    .wishlist.active i {
+        color: #ff0000;
     }
 </style>
+<!-- jQuery CDN (If not already included) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+    $('.wishlist-link').on('click', function(e) {
+        e.preventDefault(); // Prevent the default link behavior
+
+        var productId = $(this).data('product-id'); // Get the product ID from the data attribute
+
+        // Send an AJAX request to wishlist.php
+        $.ajax({
+            url: 'wishlist.php',
+            type: 'POST',
+            data: { id: productId }, // Send the product ID as POST data
+            success: function(response) {
+                // Handle the response from wishlist.php
+                console.log('Product added to wishlist:', response);
+            },
+            error: function(xhr, status, error) {
+                // Handle errors
+                console.error('Error:', error);
+            }
+        });
+    });
+});
+</script>
+
 
 <?php include "include/footer.php" ?>

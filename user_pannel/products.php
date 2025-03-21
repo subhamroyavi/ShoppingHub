@@ -109,7 +109,7 @@ $endItem = min($page * $productsPerPage, $totalProducts);
                                                                     <div class="action-link-right">
                                                                         <a href="productDetails.php?id=<?php echo $products['id'] ?>"><i
                                                                                 class="icon-magnifier"></i></a>
-                                                                        <a href="wishlist.html"><i
+                                                                        <a href="wishlist.php?id=<?php echo $products['id'] ?>"><i
                                                                                 class="icon-heart"></i></a>
                                                                     </div>
                                                                 </div>
