@@ -22,8 +22,8 @@ if(mysqli_num_rows($result) > 0){
                             <h5 class="title">INFORMATION</h5>
                             <ul class="footer-nav">
                                 <li><a href="terms_condition.php">Terms & Conditions</a></li>
-                                <li><a href="contact-us.html">Contact</a></li>
-                                <li><a href="#">Returns</a></li>
+                                <li><a href="contact-us.php">Contact</a></li>
+                                <li><a href="about-us.php">About Us</a></li>
                             </ul>
                         </div>
                         <!-- End Footer Single Item -->

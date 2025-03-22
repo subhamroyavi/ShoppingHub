@@ -11,7 +11,7 @@ if (isset($_GET['id'])) {
 
     if ($stmt) {
         echo "<script>
-             window.location.href = 'index.php';
+             window.location.href = 'wishlist.php';
              </script>";
     } else {
         // Handle query execution error
