@@ -129,7 +129,7 @@ $endItem = min($page * $itemsPerPage, $totalItems);
                                                 <td class="product-price"><?php echo $row['price']; ?></td>
                                                 <td class="product_stock"><?php echo $row['product_status']; ?></td>
                                                 <td class="product_addcart">
-                                                    <a href="#" class="btn btn-md btn-golden" data-bs-toggle="modal" data-bs-target="#modalAddcart">
+                                                    <a href="addToCart.php" class="btn btn-md btn-golden">
                                                         Add To Cart
                                                     </a>
                                                 </td>

@@ -59,9 +59,8 @@ if (mysqli_num_rows($categories_run) > 0) {
                                     <li class="has-dropdown">
                                         <a class="active main-menu-link" href="index.php">Home</a>
                                     </li>
-
                                     <li class="has-dropdown has-megaitem">
-                                        <a href="product-details-default.html">Categories <i class="fa fa-angle-down"></i></a>
+                                        <!-- <a href="index.php">Categories <i class="fa fa-angle-down"></i></a> -->
                                         <!-- Mega Menu -->
                                         <div class="mega-menu container-fluid p-0">
                                             <div class="row">
@@ -121,23 +120,23 @@ if (mysqli_num_rows($categories_run) > 0) {
                                             if ($wishlist_count_run) {
                                                 $wishlist_count_data = mysqli_fetch_assoc($wishlist_count_run);
                                                 $wishlist_count = $wishlist_count_data['wishlist_count'];
-                                                echo $wishlist_count; // Return count as JSON
+                                                echo $wishlist_count; 
                                             } else {
-                                                echo 0; // Fallback if the query fails
+                                                echo 0; 
                                             }
                                         } else {
-                                            echo 0; // Fallback if the user is not logged in
+                                            echo 0; 
                                         }
                                         ?>
                                     </span> <!-- Default value, will be updated by AJAX -->
                                 </a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="#offcanvas-add-cart" class="offcanvas-toggle">
                                     <i class="icon-bag"></i>
                                     <span class="item-count">3</span>
                                 </a>
-                            </li>
+                            </li> -->
                             <li>
                                 <a href="#search">
                                     <i class="icon-magnifier"></i>
@@ -248,7 +247,7 @@ if (mysqli_num_rows($categories_run) > 0) {
                 ?>
                             <li class="offcanvas-wishlist-item-single">
                                 <div class="offcanvas-wishlist-item-block">
-                                    <a href="#" class="offcanvas-wishlist-item-image-link">
+                                    <a href="productDetails.php?id=<?php echo $row['id']; ?>" class="offcanvas-wishlist-item-image-link">
                                         <img src="../admin/<?php echo $row['image']; ?>" alt="<?php echo $row['product_name']; ?>" class="offcanvas-wishlist-image">
                                     </a>
                                     <div class="offcanvas-wishlist-item-content">
@@ -320,9 +319,13 @@ if (mysqli_num_rows($categories_run) > 0) {
     <!-- Start Offcanvas Search Bar Section -->
     <div id="search" class="search-modal">
         <button type="button" class="close">×</button>
-        <form method="post">
-            <input type="search" placeholder="type keyword(s) here" />
-            <a href="products.php" type="submit" class="btn btn-lg btn-golden">Search</a>
+        <form method="post" action="products.php" class="search-form">
+            
+            <input type="search"
+                name="search"
+                placeholder="Type keyword(s) here"
+                value="<?php echo isset($_POST['search']) ? htmlspecialchars($_POST['search']) : ''; ?>" />
+            <button type="submit" name="search_submit" class="btn btn-lg btn-golden">Search</button>
         </form>
     </div>
     <!-- End Offcanvas Search Bar Section -->

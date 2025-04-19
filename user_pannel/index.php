@@ -281,11 +281,7 @@ include "include/connection.php";
                                                     <div class="action-link-right">
                                                         <a href="productDetails.php?id=<?php echo $products['id'] ?>"><i
                                                                 class="icon-magnifier"></i></a>
-                                                        <!-- To this -->
-                                                        <!-- <a href="wishlist.php?id=<?php echo $products['id'] ?>"><i class="icon-heart"></i>
-                                                        </a> -->
-
-                                                        <a href="#" class="wishlist-link" data-product-id="<?php echo $products['id']; ?>">
+                                                                <a href="" class="wishlist-link" data-product-id="<?php echo $products['id']; ?>">
                                                             <i class="icon-heart"></i>
                                                         </a>
                                                         <!-- <a href="compare.html"><i class="icon-shuffle"></i></a> -->
@@ -579,6 +575,7 @@ include "include/connection.php";
             data: { id: productId }, // Send the product ID as POST data
             success: function(response) {
                 // Handle the response from wishlist.php
+                location.reload(); // Reload the page
                 console.log('Product added to wishlist:', response);
             },
             error: function(xhr, status, error) {

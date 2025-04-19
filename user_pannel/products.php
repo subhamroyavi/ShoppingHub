@@ -16,8 +16,38 @@ $totalProducts = mysqli_fetch_assoc($totalProductsResult)['total'];
 $totalPages = ceil($totalProducts / $productsPerPage);
 
 // Fetch products for the current page
-$product_sql = "SELECT * FROM products WHERE status = 'active' ORDER BY id DESC LIMIT $productsPerPage OFFSET $offset";
-$product_sql_run = mysqli_query($conn, $product_sql);
+if (isset($_POST['search_submit'])) {
+    $search = trim($_POST['search']);
+
+    if (!empty($search)) {
+        $search = mysqli_real_escape_string($conn, $search);
+
+        $product_sql = "SELECT * FROM products 
+                       WHERE (name LIKE '%$search%' 
+                       OR brand_name LIKE '%$search%')
+                       AND status = 'active'
+                       ORDER BY id DESC 
+                       LIMIT $productsPerPage OFFSET $offset";
+
+        $product_sql_run = mysqli_query($conn, $product_sql);
+
+        if (!$product_sql_run) {
+            die("Query failed: " . mysqli_error($conn));
+        }
+    } else {
+        $product_sql = "SELECT * FROM products 
+                       WHERE status = 'active' 
+                       ORDER BY id DESC 
+                       LIMIT $productsPerPage OFFSET $offset";
+        $product_sql_run = mysqli_query($conn, $product_sql);
+    }
+} else {
+    $product_sql = "SELECT * FROM products 
+                   WHERE status = 'active' 
+                   ORDER BY id DESC 
+                   LIMIT $productsPerPage OFFSET $offset";
+    $product_sql_run = mysqli_query($conn, $product_sql);
+}
 
 // Calculate the proper "showing X-Y of Z results" text
 $startItem = ($page - 1) * $productsPerPage + 1;

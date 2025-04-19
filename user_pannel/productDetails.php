@@ -153,14 +153,15 @@ if (isset($_GET['id'])) {
                                     </div>
 
                                     <div class="product-add-to-cart-btn">
-                                        <a href="#" data-bs-toggle="modal" data-bs-target="#modalAddcart">+ Add To Cart</a>
+                                        <a href="addToCart.php" >+ Add To Cart</a>
+                                        <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#modalAddcart">+ Add To Cart</a> -->
                                     </div>
                                 </div>
                                 <!-- Start  Product Details Meta Area-->
                                 <div class="product-details-meta mb-20">
                                     <a href="wishlist.html" class="icon-space-right"><i class="icon-heart"></i>Add to
                                         wishlist</a>
-                                    <a href="compare.html" class="icon-space-right"><i class="icon-refresh"></i>Compare</a>
+                                    <!-- <a href="compare.html" class="icon-space-right"><i class="icon-refresh"></i>Compare</a> -->
                                 </div> <!-- End  Product Details Meta Area-->
                             </div> <!-- End Product Variable Area -->
 
