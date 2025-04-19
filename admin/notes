@@ -1,1 +1,0 @@
-create  a similar page for users.php page and their fields are ( `firstname`, `lastname`, `email`, `phone`, `password`, `address`,  `status`, `address2`, , `created_at`) and address1 fields (`city`, `pincode`, `state`, `country`,) and address 2 fields (`city2`, `pincode2`, `state2`, `country2`) show details in pop modal

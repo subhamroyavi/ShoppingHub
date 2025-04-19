@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 21, 2025 at 10:55 PM
+-- Generation Time: Apr 09, 2025 at 01:11 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -137,7 +137,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `c_id`, `brand_name`, `mrp_price`, `price`, `reviews`, `description`, `long_description`, `stock`, `status`, `image`, `image1`, `image2`, `image3`, `create_at`, `update_at`) VALUES
-(1, 'Wall Clock', 10, 'Miton', 500.00, 400.00, 4, '🎯 Key Changes & Benefits:\r\n✔️ No need for external CSS (all styles applied inline).\r\n✔️ Ensures consistent styles when images are dynamically added.\r\n✔️ Easy to modify styles directly in the script.\r\n\r\n🚀 Now, each preview image will have the correct styles automatically! 🎉 Let me know if you need further tweaks. 😊', '🎯 Key Changes & Benefits:\r\n✔️ No need for external CSS (all styles applied inline).\r\n✔️ Ensures consistent styles when images are dynamically added.\r\n✔️ Easy to modify styles directly in the script.\r\n\r\n🚀 Now, each preview image will have the correct styles automatically! 🎉 Let me know if you need further tweaks. 😊', 52, 'inactive', 'uploads/651860635_default-3.jpg', 'uploads/596355742_default-3.jpg', 'uploads/546639862_default-3.jpg', 'uploads/356141500_default-3.jpg', '2025-03-10 08:36:06', '2025-03-10 14:54:38'),
+(1, 'Wall Clock', 10, 'Miton', 500.00, 400.00, 4, '🎯 Key Changes & Benefits:\r\n✔️ No need for external CSS (all styles applied inline).\r\n✔️ Ensures consistent styles when images are dynamically added.\r\n✔️ Easy to modify styles directly in the script.\r\n\r\n🚀 Now, each preview image will have the correct styles automatically! 🎉 Let me know if you need further tweaks. 😊', '🎯 Key Changes & Benefits:\r\n✔️ No need for external CSS (all styles applied inline).\r\n✔️ Ensures consistent styles when images are dynamically added.\r\n✔️ Easy to modify styles directly in the script.\r\n\r\n🚀 Now, each preview image will have the correct styles automatically! 🎉 Let me know if you need further tweaks. 😊', 52, 'active', 'uploads/651860635_default-3.jpg', 'uploads/596355742_default-3.jpg', 'uploads/546639862_default-3.jpg', 'uploads/356141500_default-3.jpg', '2025-03-10 08:36:06', '2025-04-08 22:06:50'),
 (3, 'Camera', 12, 'Sony', 3880.00, 2500.00, 1, '🎯 Key Changes & Benefits:\r\n✔️ No need for external CSS (all styles applied inline).\r\n✔️ Ensures consistent styles when images are dynamically added.\r\n✔️ Easy to modify styles directly in the script.\r\n\r\n🚀 Now, each preview image will have the correct styles automatically! 🎉 Let me know if you need further tweaks. 😊', '🎯 Key Changes & Benefits:\r\n✔️ No need for external CSS (all styles applied inline).\r\n✔️ Ensures consistent styles when images are dynamically added.\r\n✔️ Easy to modify styles directly in the script.\r\n\r\n🚀 Now, each preview image will have the correct styles automatically! 🎉 Let me know if you need further tweaks. 😊', 10, 'active', 'uploads/889020673_default-11.jpg', 'uploads/833885719_default-11.jpg', 'uploads/824472876_default-11.jpg', 'uploads/904812724_default-11.jpg', '2025-03-10 09:18:22', '2025-03-10 16:24:05'),
 (4, 'Stell Chair', 10, 'Tata Stell', 599.00, 499.00, 5, '🎯 Key Changes & Benefits:\r\n✔️ No need for external CSS (all styles applied inline).\r\n✔️ Ensures consistent styles when images are dynamically added.\r\n✔️ Easy to modify styles directly in the script.\r\n\r\n🚀 Now, each preview image will have the correct styles automatically! 🎉 Let me know if you need further tweaks. 😊', '🎯 Key Changes & Benefits:\r\n✔️ No need for external CSS (all styles applied inline).\r\n✔️ Ensures consistent styles when images are dynamically added.\r\n✔️ Easy to modify styles directly in the script.\r\n\r\n🚀 Now, each preview image will have the correct styles automatically! 🎉 Let me know if you need further tweaks. 😊', 50, 'active', 'uploads/750685153_default-1.jpg', 'uploads/926556215_default-1.jpg', 'uploads/712196849_default-1.jpg', 'uploads/692003138_default-1.jpg', '2025-03-10 09:19:48', '2025-03-10 09:19:48'),
 (6, 'Google Pixel phone', 15, 'Google', 49999.00, 45000.00, 4, 'Product detail pages (PDPs) are crucial components of e-commerce websites, providing comprehensive information about specific products to help potential customers make informed purchasing decisions.\r\n These pages typically include high-quality images and videos that allow online shoppers to visualize the product from different angles and understand its appearance and size.\r\n Detailed product descriptions, specifications, pricing, and availability are also essential elements', 'Product detail pages (PDPs) are crucial components of e-commerce websites, providing comprehensive information about specific products to help potential customers make informed purchasing decisions.\r\n These pages typically include high-quality images and videos that allow online shoppers to visualize the product from different angles and understand its appearance and size.\r\n Detailed product descriptions, specifications, pricing, and availability are also essential elements', 12, 'inactive', 'uploads/171963685_default-5.jpg', 'uploads/554736767_default-5.jpg', 'uploads/303161231_default-5.jpg', 'uploads/387243947_default-5.jpg', '2025-03-10 10:28:17', '2025-03-10 10:28:17'),
@@ -234,8 +234,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `firstname`, `lastname`, `email`, `phone`, `password`, `address`, `city`, `pincode`, `state`, `country`, `status`, `address2`, `city2`, `pincode2`, `state2`, `country2`, `created_at`, `updated_at`) VALUES
-(44, 'Subham', 'Roy', 'roy@gmail.com', '9641857774', '$2y$10$.LAigT6kVmiHGvfPQGHfTOdsW78Tq/uTt10WYatX.5NxWv8DnfUHu', 'Dinhata, Gopal Nagar', 'Coochbehar', '736135', 'west bengal', 'India', 'active', 'Dinhata, Shitala Bari Road, Ward no 5', 'Coochbehar', '736135', 'west bengal', 'India', '2025-03-14 19:55:22', '2025-03-15 16:20:05'),
-(45, 'Admin', 'Admin', 'admin@gmail.com', '9876543210', '$2y$10$YfNelMU53xNk9VqqesyHWOhK2csAN867WyUgVg.7esrHObN2sBgIe', 'Mahisbatan, Sector 5', 'Salt lake', '700102', 'west bengal', 'India', 'active', 'Dinhata', 'Coochbehar', '736135', 'west bengal', 'India', '2025-03-14 20:14:32', '2025-03-14 21:13:08');
+(44, 'Subham', 'Roy', 'roy@gmail.com', '9641857775', '$2y$10$EJYDwvtWtzG53BoDJgDv6uBau6jH.XXN45t.EyVMvMmFR3uGTvihy', 'Dinhata, Gopal Nagar', 'Coochbehar', '736135', 'west bengal', 'India', 'active', 'Dinhata, Shitala Bari Road, Ward no 5', 'Coochbehar', '736135', 'west bengal', 'India', '2025-03-14 19:55:22', '2025-04-08 22:59:13'),
+(45, 'Admin', 'vghh', 'fyugyugt', '9876543210', 'password', 'Mahisbatan, Sector 5', 'Salt lake', '700102', 'west bengal', 'India', 'active', 'Dinhata', 'Coochbehar', '736135', 'west bengal', 'India', '2025-03-14 20:14:32', '2025-04-08 22:53:39'),
+(47, NULL, NULL, 'admin@gmail.com', '9641857774', '$2y$10$jOEUf02hjWzK1QjvMOXp1ecS5yg8hS51cvMeQYSKSmuk6JjVu7FD.', 'Shitala Bari Road, Dinhata', 'Cooch Behar', '736135', 'West Bengal', 'india', 'active', 'MahishBatan, Sector 5', 'North 24 Pargana', '700102', 'West Bengal', 'India', '2025-04-08 22:59:41', '2025-04-08 23:02:44');
 
 -- --------------------------------------------------------
 
@@ -256,11 +257,23 @@ CREATE TABLE `wishlists` (
 --
 
 INSERT INTO `wishlists` (`wishlist_id`, `user_id`, `product_id`, `create_at`, `update_at`) VALUES
-(16, 44, 3, '2025-03-21 18:45:09', '2025-03-21 18:45:09'),
-(17, 44, 10, '2025-03-21 18:47:50', '2025-03-21 18:47:50'),
 (27, 45, 3, '2025-03-21 20:23:50', '2025-03-21 20:23:50'),
-(36, 44, 22, '2025-03-21 21:48:22', '2025-03-21 21:48:22'),
-(37, 44, 23, '2025-03-21 21:48:34', '2025-03-21 21:48:34');
+(42, 44, 25, '2025-04-08 20:15:38', '2025-04-08 20:15:38'),
+(43, 44, 23, '2025-04-08 20:16:49', '2025-04-08 20:16:49'),
+(44, 44, 22, '2025-04-08 20:19:56', '2025-04-08 20:19:56'),
+(45, 44, 10, '2025-04-08 20:20:03', '2025-04-08 20:20:03'),
+(46, 44, 15, '2025-04-08 20:24:16', '2025-04-08 20:24:16'),
+(47, 44, 13, '2025-04-08 20:24:24', '2025-04-08 20:24:24'),
+(48, 44, 14, '2025-04-08 20:24:28', '2025-04-08 20:24:28'),
+(49, 44, 7, '2025-04-08 20:24:38', '2025-04-08 20:24:38'),
+(50, 44, 24, '2025-04-08 20:32:14', '2025-04-08 20:32:14'),
+(51, 47, 13, '2025-04-08 23:06:35', '2025-04-08 23:06:35'),
+(52, 47, 14, '2025-04-08 23:06:38', '2025-04-08 23:06:38'),
+(53, 47, 23, '2025-04-08 23:06:41', '2025-04-08 23:06:41'),
+(54, 47, 22, '2025-04-08 23:06:45', '2025-04-08 23:06:45'),
+(55, 47, 15, '2025-04-08 23:06:47', '2025-04-08 23:06:47'),
+(56, 47, 10, '2025-04-08 23:06:50', '2025-04-08 23:06:50'),
+(57, 47, 7, '2025-04-08 23:06:58', '2025-04-08 23:06:58');
 
 --
 -- Indexes for dumped tables
@@ -353,13 +366,13 @@ ALTER TABLE `products_demo`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `wishlists`
 --
 ALTER TABLE `wishlists`
-  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- Constraints for dumped tables
