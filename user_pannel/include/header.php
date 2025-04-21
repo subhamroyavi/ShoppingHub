@@ -60,7 +60,7 @@ if (mysqli_num_rows($categories_run) > 0) {
                                         <a class="active main-menu-link" href="index.php">Home</a>
                                     </li>
                                     <li class="has-dropdown has-megaitem">
-                                        <!-- <a href="index.php">Categories <i class="fa fa-angle-down"></i></a> -->
+                                        <a href="index.php">Categories <i class="fa fa-angle-down"></i></a>
                                         <!-- Mega Menu -->
                                         <div class="mega-menu container-fluid p-0">
                                             <div class="row">
@@ -120,23 +120,50 @@ if (mysqli_num_rows($categories_run) > 0) {
                                             if ($wishlist_count_run) {
                                                 $wishlist_count_data = mysqli_fetch_assoc($wishlist_count_run);
                                                 $wishlist_count = $wishlist_count_data['wishlist_count'];
-                                                echo $wishlist_count; 
+                                                echo $wishlist_count;
                                             } else {
-                                                echo 0; 
+                                                echo 0;
                                             }
                                         } else {
-                                            echo 0; 
+                                            echo 0;
                                         }
                                         ?>
                                     </span> <!-- Default value, will be updated by AJAX -->
                                 </a>
                             </li>
-                            <!-- <li>
+                            <li>
                                 <a href="#offcanvas-add-cart" class="offcanvas-toggle">
                                     <i class="icon-bag"></i>
-                                    <span class="item-count">3</span>
+                                    <span class="item-count">
+                                        <?php
+                                        // if (!empty($_SESSION['user_id'])) {
+                                        //     $user_id = $_SESSION['user_id'];
+
+                                        //     $id = $_GET['pid'];
+
+                                        //     $query = "SELECT id FROM carts WHERE user_id = '$user_id' ORDER BY created_at DESC LIMIT 1";
+                                        //     $result = mysqli_query($conn, $query);
+
+                                        //     $row = mysqli_fetch_assoc($result);
+                                        //     $cart_id = $row['id'];
+                                        //     // Query to count the number of wishlist items for the user
+                                        //     $cart_count_sql = "SELECT COUNT(id) AS cart_count FROM cart_items WHERE cart_id = $cart_id";
+                                        //     $cart_count_run = mysqli_query($conn, $cart_count_sql);
+
+                                        //     if ($cart_count_run) {
+                                        //         $cart_count_data = mysqli_fetch_assoc($cart_count_run);
+                                        //         $cart_count = $cart_count_data['cart_count'];
+                                        //         echo $cart_count;
+                                        //     } else {
+                                        //         echo 0;
+                                        //     }
+                                        // } else {
+                                        //     echo 0;
+                                        // }
+                                        ?>
+                                    </span>
                                 </a>
-                            </li> -->
+                            </li>
                             <li>
                                 <a href="#search">
                                     <i class="icon-magnifier"></i>
@@ -309,8 +336,8 @@ if (mysqli_num_rows($categories_run) > 0) {
                 <span class="offcanvas-cart-total-price-value">$170.00</span>
             </div>
             <ul class="offcanvas-cart-action-button">
-                <li><a href="cart.html" class="btn btn-block btn-golden">View Cart</a></li>
-                <li><a href="compare.html" class="btn btn-block btn-golden mt-5">Compare</a></li>
+                <li><a href="cart.php" class="btn btn-block btn-golden">View Cart</a></li>
+                <!-- <li><a href="compare.php" class="btn btn-block btn-golden mt-5">Compare</a></li> -->
             </ul>
         </div>
     </div>
@@ -320,7 +347,7 @@ if (mysqli_num_rows($categories_run) > 0) {
     <div id="search" class="search-modal">
         <button type="button" class="close">×</button>
         <form method="post" action="products.php" class="search-form">
-            
+
             <input type="search"
                 name="search"
                 placeholder="Type keyword(s) here"

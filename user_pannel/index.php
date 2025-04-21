@@ -284,7 +284,7 @@ include "include/connection.php";
                                                                 <a href="" class="wishlist-link" data-product-id="<?php echo $products['id']; ?>">
                                                             <i class="icon-heart"></i>
                                                         </a>
-                                                        <!-- <a href="compare.html"><i class="icon-shuffle"></i></a> -->
+                                                        <!-- <a href="compare.html"><i class="icon-bag"></a> -->
                                                     </div>
                                                 </div>
                                             </div>

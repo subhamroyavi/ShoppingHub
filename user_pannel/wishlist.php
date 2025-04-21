@@ -129,7 +129,7 @@ $endItem = min($page * $itemsPerPage, $totalItems);
                                                 <td class="product-price"><?php echo $row['price']; ?></td>
                                                 <td class="product_stock"><?php echo $row['product_status']; ?></td>
                                                 <td class="product_addcart">
-                                                    <a href="addToCart.php" class="btn btn-md btn-golden">
+                                                    <a href="cart.php?pid=<?php echo $row['id']; ?>" class="btn btn-md btn-golden">
                                                         Add To Cart
                                                     </a>
                                                 </td>
@@ -248,5 +248,31 @@ $endItem = min($page * $itemsPerPage, $totalItems);
         <p>Showing page <?php echo $page; ?> of <?php echo $totalPages; ?> (Total items: <?php echo $totalItems; ?>)</p>
     </div>
 </div>
+
+<!-- <script>
+    $(document).ready(function() {
+    $('.cart-link').on('click', function(e) {
+        e.preventDefault(); // Prevent the default link behavior
+
+        var productId = $(this).data('product-id'); // Get the product ID from the data attribute
+
+        // Send an AJAX request to wishlist.php
+        $.ajax({
+            url: 'cart.php',
+            type: 'POST',
+            data: { id: productId }, // Send the product ID as POST data
+            success: function(response) {
+                // Handle the response from wishlist.php
+                location.reload(); // Reload the page
+                console.log('Product added to cart:', response);
+            },
+            error: function(xhr, status, error) {
+                // Handle errors
+                console.error('Error:', error);
+            }
+        });
+    });
+});
+</script> -->
 
 <?php include "include/footer.php" ?>
