@@ -129,9 +129,11 @@ $endItem = min($page * $itemsPerPage, $totalItems);
                                                 <td class="product-price"><?php echo $row['price']; ?></td>
                                                 <td class="product_stock"><?php echo $row['product_status']; ?></td>
                                                 <td class="product_addcart">
-                                                    <a href="cart.php?pid=<?php echo $row['id']; ?>" class="btn btn-md btn-golden">
+
+                                                <a href="" class="cart-link btn btn-md btn-golden" data-product-id="<?php echo $row['id']; ?>">
                                                         Add To Cart
                                                     </a>
+                                                   
                                                 </td>
                                             </tr>
                                     <?php
@@ -249,30 +251,29 @@ $endItem = min($page * $itemsPerPage, $totalItems);
     </div>
 </div>
 
-<!-- <script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
     $(document).ready(function() {
-    $('.cart-link').on('click', function(e) {
-        e.preventDefault(); // Prevent the default link behavior
+        $('.cart-link').on('click', function(e) {
+            e.preventDefault();
+            var productId = $(this).data('product-id');
+            // console.log('Product ID to send:', productId);
+            $.ajax({
+                url: 'cart.php',
+                type: 'GET',
+                data: { pid: productId },
+                success: function(response) {
 
-        var productId = $(this).data('product-id'); // Get the product ID from the data attribute
-
-        // Send an AJAX request to wishlist.php
-        $.ajax({
-            url: 'cart.php',
-            type: 'POST',
-            data: { id: productId }, // Send the product ID as POST data
-            success: function(response) {
-                // Handle the response from wishlist.php
-                location.reload(); // Reload the page
-                console.log('Product added to cart:', response);
-            },
-            error: function(xhr, status, error) {
-                // Handle errors
-                console.error('Error:', error);
-            }
+                    console.log('Product added to cart:', response);
+                    window.location.href = 'cart.php?pid=' + productId;
+                    location.reload(); 
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
         });
     });
-});
-</script> -->
+</script>
 
 <?php include "include/footer.php" ?>

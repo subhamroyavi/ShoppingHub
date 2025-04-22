@@ -1,12 +1,14 @@
 <?php
+session_start();
 include 'include/connection.php';
-$_GET['id'];
+// echo $_GET['id'];
 // Check if 'id' is provided and is a valid integer
 if (isset($_GET['id'])) {
-    $id = intval($_GET['id']); // Sanitize the input
+   $id = intval($_GET['id']);
+   $cart_id = $_SESSION['cart_id']; // Sanitize the input
 
     // Prepare the SQL query to prevent SQL injection
-    $sql = "DELETE FROM `cart_items` WHERE product_id =  $id";
+    echo $sql = "DELETE FROM `cart_items` WHERE product_id =  $id AND cart_id = $cart_id";
     $stmt = mysqli_query($conn, $sql);
 
     if ($stmt) {

@@ -136,30 +136,21 @@ if (mysqli_num_rows($categories_run) > 0) {
                                     <i class="icon-bag"></i>
                                     <span class="item-count">
                                         <?php
-                                        // if (!empty($_SESSION['user_id'])) {
-                                        //     $user_id = $_SESSION['user_id'];
+                                        if (!empty($_SESSION['cart_id'])) {
+                                            $cart_id = $_SESSION['cart_id'];
 
-                                        //     $id = $_GET['pid'];
+                                            $cart_count_sql = "SELECT COUNT(id) AS cart_count FROM cart_items WHERE cart_id = '" . mysqli_real_escape_string($conn, $cart_id) . "'";
+                                            $cart_count_run = mysqli_query($conn, $cart_count_sql);
 
-                                        //     $query = "SELECT id FROM carts WHERE user_id = '$user_id' ORDER BY created_at DESC LIMIT 1";
-                                        //     $result = mysqli_query($conn, $query);
-
-                                        //     $row = mysqli_fetch_assoc($result);
-                                        //     $cart_id = $row['id'];
-                                        //     // Query to count the number of wishlist items for the user
-                                        //     $cart_count_sql = "SELECT COUNT(id) AS cart_count FROM cart_items WHERE cart_id = $cart_id";
-                                        //     $cart_count_run = mysqli_query($conn, $cart_count_sql);
-
-                                        //     if ($cart_count_run) {
-                                        //         $cart_count_data = mysqli_fetch_assoc($cart_count_run);
-                                        //         $cart_count = $cart_count_data['cart_count'];
-                                        //         echo $cart_count;
-                                        //     } else {
-                                        //         echo 0;
-                                        //     }
-                                        // } else {
-                                        //     echo 0;
-                                        // }
+                                            if ($cart_count_run) {
+                                                $cart_count_data = mysqli_fetch_assoc($cart_count_run);
+                                                echo $cart_count_data['cart_count'];
+                                            } else {
+                                                echo 0;
+                                            }
+                                        } else {
+                                            echo 0;
+                                        }
                                         ?>
                                     </span>
                                 </a>
@@ -266,7 +257,7 @@ if (mysqli_num_rows($categories_run) > 0) {
                     JOIN products ON wishlists.product_id = products.id
                     WHERE users.user_id = $user_id
                     ORDER BY wishlists.wishlist_id DESC
-                    LIMIT 4";
+                    LIMIT 6";
                     $wishlist_sql_run = mysqli_query($conn, $wishlist_sql);
 
                     if (mysqli_num_rows($wishlist_sql_run) > 0) {
@@ -313,28 +304,54 @@ if (mysqli_num_rows($categories_run) > 0) {
         <div class="offcanvas-add-cart-wrapper">
             <h4 class="offcanvas-title">Shopping Cart</h4>
             <ul class="offcanvas-cart">
-                <li class="offcanvas-cart-item-single">
-                    <div class="offcanvas-cart-item-block">
-                        <a href="#" class="offcanvas-cart-item-image-link">
-                            <img src="assets/images/product/default/home-1/default-1.jpg" alt="" class="offcanvas-cart-image">
-                        </a>
-                        <div class="offcanvas-cart-item-content">
-                            <a href="#" class="offcanvas-cart-item-link">Stylish Chair</a>
-                            <div class="offcanvas-cart-item-details">
-                                <span class="offcanvas-cart-item-details-quantity">1 x </span>
-                                <span class="offcanvas-cart-item-details-price">$49.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="offcanvas-cart-item-delete text-right">
-                        <a href="#" class="offcanvas-cart-item-delete"><i class="fa fa-trash-o"></i></a>
-                    </div>
-                </li>
+                <?php
+                if (!empty($_SESSION['user_id'])) {
+                    $user_id = $_SESSION['user_id'];
+                    // $result = mysqli_query($conn, "SELECT id FROM carts WHERE user_id = '" . mysqli_real_escape_string($conn, $user_id) . "'");
+                    $result = mysqli_query($conn, "SELECT id FROM carts WHERE user_id = '$user_id'");
+
+                    if ($cart = mysqli_fetch_assoc($result)) {
+                        $cart_id = $cart['id'];
+                        $cart_items = mysqli_query($conn, "SELECT * FROM cart_items
+                                                            JOIN products on cart_items.product_id = products.id
+                                                            WHERE cart_items.cart_id = '$cart_id' ORDER BY cart_items.id DESC
+                                                            LIMIT 6
+                                                        ");
+
+                        while ($cart_details = mysqli_fetch_assoc($cart_items)) {
+                ?>
+                            <li class="offcanvas-cart-item-single">
+                                <div class="offcanvas-cart-item-block">
+                                    <a href="productDetails.php?id=<?php echo $cart_details['id']; ?>" class="offcanvas-cart-item-image-link">
+                                        <img src="../admin/<?php echo $cart_details['image'] ?>" alt="" class="offcanvas-cart-image">
+                                    </a>
+                                    <div class="offcanvas-cart-item-content">
+                                        <a href="productDetails.php?id=<?php echo $cart_details['id']; ?>" class="offcanvas-cart-item-link"><?php echo $cart_details['name'] ?></a>
+                                        <div class="offcanvas-cart-item-details">
+                                            <span class="offcanvas-cart-item-details-quantity"><?php echo $cart_details['qty']; ?> x</span>
+                                            <span class="offcanvas-cart-item-details-price"><?php echo $cart_details['price']; ?></span>
+                                            <span class="offcanvas-cart-item-details-price"> = <?php echo $cart_details['price'] * $cart_details['qty']; ?></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="offcanvas-cart-item-delete text-right">
+                                    <a href="cart_itemDelete.php?id=<?php echo $cart_details['id']; ?>" class="offcanvas-cart-item-delete"><i class="fa fa-trash-o"></i></a>
+                                </div>
+                            </li>
+                <?php
+                        }
+                    } else {
+                        echo '<li>No items in your wishlist.</li>';
+                    }
+                } else {
+                    echo '<li>Please log in to view your wishlist.</li>';
+                }
+                ?>
             </ul>
-            <div class="offcanvas-cart-total-price">
+            <!-- <div class="offcanvas-cart-total-price">
                 <span class="offcanvas-cart-total-price-text">Subtotal:</span>
                 <span class="offcanvas-cart-total-price-value">$170.00</span>
-            </div>
+            </div> -->
             <ul class="offcanvas-cart-action-button">
                 <li><a href="cart.php" class="btn btn-block btn-golden">View Cart</a></li>
                 <!-- <li><a href="compare.php" class="btn btn-block btn-golden mt-5">Compare</a></li> -->
