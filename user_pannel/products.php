@@ -49,6 +49,21 @@ if (isset($_POST['search_submit'])) {
     $product_sql_run = mysqli_query($conn, $product_sql);
 }
 
+if (isset($_GET['c_id'])) {
+    $c_id = $_GET['c_id'];
+    $product_sql = "SELECT * FROM products 
+    WHERE status = 'active' AND c_id = '$c_id'
+    ORDER BY id DESC 
+    LIMIT $productsPerPage OFFSET $offset";
+    $product_sql_run = mysqli_query($conn, $product_sql);
+} else {
+    $product_sql = "SELECT * FROM products 
+    WHERE status = 'active' 
+    ORDER BY id DESC 
+    LIMIT $productsPerPage OFFSET $offset";
+    $product_sql_run = mysqli_query($conn, $product_sql);
+}
+
 // Calculate the proper "showing X-Y of Z results" text
 $startItem = ($page - 1) * $productsPerPage + 1;
 $endItem = min($page * $productsPerPage, $totalProducts);
@@ -139,8 +154,15 @@ $endItem = min($page * $productsPerPage, $totalProducts);
                                                                     <div class="action-link-right">
                                                                         <a href="productDetails.php?id=<?php echo $products['id'] ?>"><i
                                                                                 class="icon-magnifier"></i></a>
-                                                                        <a href="wishlist.php?id=<?php echo $products['id'] ?>"><i
-                                                                                class="icon-heart"></i></a>
+                                                                        <!-- <a href="wishlist.php?id=<?php echo $products['id'] ?>"><i
+                                                                                class="icon-heart"></i></a> -->
+                                                                        <a href="" class="wishlist-link" data-product-id="<?php echo $products['id']; ?>">
+                                                                            <i class="icon-heart"></i>
+                                                                        </a>
+                                                                        <!-- <a href="compare.html"><i class="icon-bag"></i></a> -->
+                                                                        <a href="" class="cart-link" data-cart_product-id="<?php echo $products['id']; ?>">
+                                                                            <i class="icon-bag"></i>
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -290,5 +312,58 @@ $endItem = min($page * $productsPerPage, $totalProducts);
         </div>
     </div>
 </div> <!-- ...:::: End Shop Section:::... -->
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.wishlist-link').on('click', function(e) {
+            e.preventDefault(); // Prevent the default link behavior
+
+            var productId = $(this).data('product-id'); // Get the product ID from the data attribute
+
+            // Send an AJAX request to wishlist.php
+            $.ajax({
+                url: 'wishlist.php',
+                type: 'POST',
+                data: {
+                    id: productId
+                }, // Send the product ID as POST data
+                success: function(response) {
+                    // Handle the response from wishlist.php
+                    location.reload(); // Reload the page
+                    console.log('Product added to wishlist:', response);
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+
+    $(document).ready(function() {
+        $('.cart-link').on('click', function(e) {
+            e.preventDefault();
+            var productId = $(this).data('cart_product-id');
+            console.log('Product ID to send:', productId);
+            $.ajax({
+                url: 'cart.php',
+                type: 'GET',
+                data: {
+                    pid: productId
+                },
+                success: function(response) {
+
+                    console.log('Product added to cart:', response);
+                    window.location.href = 'cart.php?pid=' + productId;
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+</script>
 
 <?php include "include/footer.php" ?>

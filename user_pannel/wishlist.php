@@ -132,7 +132,7 @@ $endItem = min($page * $itemsPerPage, $totalItems);
 
                                                 <a href="" class="cart-link btn btn-md btn-golden" data-product-id="<?php echo $row['id']; ?>">
                                                         Add To Cart
-                                                    </a>
+                                                </a>
                                                    
                                                 </td>
                                             </tr>

@@ -143,7 +143,7 @@ include "include/connection.php";
                             <h4 class="title">Mini rechargeable
                                 Table Lamp - E216</h4>
                             <h5 class="sub-title">We design your home</h5>
-                            <a href="product-details-default.html"
+                            <a href="products.php?c_id=<?php echo '12' ?>"
                                 class="btn btn-lg btn-outline-golden icon-space-left"><span
                                     class="d-flex align-items-center">discover now <i
                                         class="ion-ios-arrow-thin-right"></i></span></a>
@@ -164,7 +164,7 @@ include "include/connection.php";
                                 <div class="content">
                                     <h4 class="title">Kitchen <br>
                                         utensils</h4>
-                                    <a href="product-details-default.html" class="link-text"><span>Shop
+                                    <a href="products.php?c_id=<?php echo '10' ?>" class="link-text"><span>Shop
                                             now</span></a>
                                 </div>
                             </div>
@@ -180,7 +180,7 @@ include "include/connection.php";
                                 <div class="content">
                                     <h4 class="title">Sofas and <br>
                                         Armchairs</h4>
-                                    <a href="product-details-default.html" class="link-text"><span>Shop
+                                    <a href="products.php?c_id=<?php echo '10' ?>" class="link-text"><span>Shop
                                             now</span></a>
                                 </div>
                             </div>
@@ -196,7 +196,7 @@ include "include/connection.php";
                                 <div class="content">
                                     <h4 class="title">Chair & Bar<br>
                                         stools</h4>
-                                    <a href="product-details-default.html" class="link-text"><span>Shop
+                                    <a href="products.php?c_id=<?php echo '10' ?>" class="link-text"><span>Shop
                                             now</span></a>
                                 </div>
                             </div>
@@ -212,7 +212,7 @@ include "include/connection.php";
                                 <div class="content">
                                     <h4>Interior <br>
                                         lighting</h4>
-                                    <a href="product-details-default.html"><span>Shop now</span></a>
+                                    <a href="products.php?c_id=<?php echo '12' ?>"><span>Shop now</span></a>
                                 </div>
                             </div>
                         </div>
@@ -356,7 +356,7 @@ include "include/connection.php";
                         <h3 class="title">Modern Furniture
                             Basic Collection</h3>
                         <h5 class="sub-title">We design your home more beautiful</h5>
-                        <a href="product-details-default.html"
+                        <a href="products.php"
                             class="btn btn-lg btn-outline-golden icon-space-left"><span
                                 class="d-flex align-items-center">discover now <i
                                     class="ion-ios-arrow-thin-right"></i></span></a>

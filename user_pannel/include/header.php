@@ -4,7 +4,6 @@ include 'connection.php';
 
 $categories_sql = "SELECT * FROM categories";
 $categories_run = mysqli_query($conn, $categories_sql);
-
 if (mysqli_num_rows($categories_run) > 0) {
     $categories = mysqli_fetch_all($categories_run, MYSQLI_ASSOC);
     $_SESSION['categories'] = $categories;
@@ -59,32 +58,30 @@ if (mysqli_num_rows($categories_run) > 0) {
                                     <li class="has-dropdown">
                                         <a class="active main-menu-link" href="index.php">Home</a>
                                     </li>
-                                    <li class="has-dropdown has-megaitem">
-                                        <a href="index.php">Categories <i class="fa fa-angle-down"></i></a>
-                                        <!-- Mega Menu -->
-                                        <div class="mega-menu container-fluid p-0">
-                                            <div class="row">
-                                                <?php
-                                                if (!empty($categories) && is_array($categories)) {
-                                                    foreach ($categories as $category) {
-                                                        if (isset($category['c_name'])) {
-                                                ?>
-                                                            <ul lass="list-unstyled">
-                                                                <h6 class="mega-menu-item-title mb-3">
-                                                                    <li class="mb-2">
-                                                                        <a href="#"><?php echo $category['c_name'] ?></a>
-                                                                    </li>
-                                                                </h6>
-                                                            </ul>
-                                                <?php
-                                                        }
+
+
+                                    <li class="has-dropdown">
+                                        <a href="index.php">Categories <i
+                                                class="fa fa-angle-down"></i></a>
+                                        <!-- Sub Menu -->
+                                        <ul class="sub-menu">
+                                            <?php
+                                            if (!empty($categories) && is_array($categories)) {
+                                                foreach ($categories as $category) {
+                                                    if (isset($category['c_name'])) {
+                                                        $c_id = $category['id'];
+                                            ?>
+                                                        <li><a href="products.php?c_id=<?php echo $category['id'] ?>"><?php echo $category['c_name'] ?></a>
+                                                        </li>
+
+                                            <?php
                                                     }
-                                                } else {
-                                                    echo '<div class="col-12 text-center py-4">No categories available.</div>';
                                                 }
-                                                ?>
-                                            </div>
-                                        </div>
+                                            } else {
+                                                echo '<div class="col-12 text-center py-4">No categories available.</div>';
+                                            }
+                                            ?>
+                                        </ul>
                                     </li>
 
                                     <li>
@@ -354,7 +351,7 @@ if (mysqli_num_rows($categories_run) > 0) {
             </div> -->
             <ul class="offcanvas-cart-action-button">
                 <li><a href="cart.php" class="btn btn-block btn-golden">View Cart</a></li>
-                <!-- <li><a href="compare.php" class="btn btn-block btn-golden mt-5">Compare</a></li> -->
+                <li><a href="checkout.php" class="btn btn-block btn-golden mt-5">Checkout</a></li>
             </ul>
         </div>
     </div>

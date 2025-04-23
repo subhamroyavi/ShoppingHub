@@ -152,14 +152,16 @@ if (isset($_GET['id'])) {
                                         </div>
                                     </div>
 
-                                    <div class="product-add-to-cart-btn">
-                                        <a href="addToCart.php" >+ Add To Cart</a>
-                                        <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#modalAddcart">+ Add To Cart</a> -->
+                                    <div class="product-add-to-cart-btn ">
+                                        <!-- <a href="addToCart.php">+ Add To Cart</a> -->
+                                        <a href="" class="cart-link" data-product-id="<?php echo $product['id']; ?>">
+                                                       + Add To Cart
+                                                </a>
                                     </div>
                                 </div>
                                 <!-- Start  Product Details Meta Area-->
                                 <div class="product-details-meta mb-20">
-                                    <a href="wishlist.html" class="icon-space-right"><i class="icon-heart"></i>Add to
+                                    <a href="" class="icon-space-right wishlist-link" data-product-id="<?php echo $product['id']; ?>"><i class="icon-heart"></i>Add to
                                         wishlist</a>
                                     <!-- <a href="compare.html" class="icon-space-right"><i class="icon-refresh"></i>Compare</a> -->
                                 </div> <!-- End  Product Details Meta Area-->
@@ -417,9 +419,9 @@ if (isset($_GET['id'])) {
                 <div class="col-12">
                     <div class="section-content-gap">
                         <div class="secton-content">
-                            <h3 class="section-title">RELATED PRODUCTS</h3>
+                            <h3 class="section-title">PRODUCTS</h3>
 
-                            <p>Browse the collection of our related products.</p>
+                            <p>Browse the collection of our products.</p>
 
                         </div>
                     </div>
@@ -523,6 +525,56 @@ if (isset($_GET['id'])) {
     </div>
 </div>
 <!-- End Product Default Slider Section -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.cart-link').on('click', function(e) {
+            e.preventDefault();
+            var productId = $(this).data('product-id');
+            // console.log('Product ID to send:', productId);
+            $.ajax({
+                url: 'cart.php',
+                type: 'GET',
+                data: { pid: productId },
+                success: function(response) {
+
+                    console.log('Product added to cart:', response);
+                    window.location.href = 'cart.php?pid=' + productId;
+                    location.reload(); 
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+
+    $(document).ready(function() {
+        $('.wishlist-link').on('click', function(e) {
+            e.preventDefault(); // Prevent the default link behavior
+
+            var productId = $(this).data('product-id'); // Get the product ID from the data attribute
+
+            // Send an AJAX request to wishlist.php
+            $.ajax({
+                url: 'wishlist.php',
+                type: 'POST',
+                data: {
+                    id: productId
+                }, // Send the product ID as POST data
+                success: function(response) {
+                    // Handle the response from wishlist.php
+                    location.reload(); // Reload the page
+                    console.log('Product added to wishlist:', response);
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+</script>
 
 
 <?php include "include/footer.php" ?>
