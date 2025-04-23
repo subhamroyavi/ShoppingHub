@@ -103,7 +103,7 @@ $payment = mysqli_fetch_assoc($payment_result);
                                 <div class="customer-details-box">
                                     <h4>Customer Details</h4>
                                     <ul>
-                                        <li><span>Name:</span> <?= $order['firstname'] ?> <?= $order['lastname'] ?></li>
+                                        <li><span>Name:</span> <?= $order['name'] ?></li>
                                         <li><span>Email:</span> <?= $order['email'] ?></li>
                                         <li><span>Phone:</span> <?= $order['phone'] ?></li>
                                         <li><span>Shipping Address:</span> <?= $order['shipping_address'] ?></li>

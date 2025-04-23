@@ -29,19 +29,26 @@ $total = $subtotal + $shipping_fee;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
     // 1. Prepare shipping address
+    $name = implode(' ', array_filter([
+        $_POST['firstname'],
+        $_POST['lastname'],
+    ]));
     $shipping_address = implode(', ', array_filter([
         $_POST['address'],
         $_POST['city'],
         $_POST['state'],
         $_POST['country'],
-        $_POST['pincode']
+        $_POST['pincode'],
+        $_POST['phone'],
+        $_POST['email'],
     ]));
 
     $shipping_address = mysqli_real_escape_string($conn, $shipping_address);
+    $username = mysqli_real_escape_string($conn, $name);
     $payment_method = mysqli_real_escape_string($conn, $_POST['payment_method']);
 
-    $order_query = "INSERT INTO orders (user_id, total_amount, status, payment_status, shipping_address)
-               VALUES ($user_id, $total, 'pending', 'unpaid', '$shipping_address')";
+    $order_query = "INSERT INTO orders (user_id, total_amount, status, payment_status, name, shipping_address)
+               VALUES ($user_id, $total, 'pending', 'unpaid', '$username', '$shipping_address')";
     if (!mysqli_query($conn, $order_query)) {
         die("Order creation failed: " . mysqli_error($conn));
     }
@@ -55,8 +62,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
         }
     }
 
-    $payment_query = "INSERT INTO payments (order_id, amount, payment_method, status)
+    if ($payment_method == 'cod') {
+        $payment_query = "INSERT INTO payments (order_id, amount, payment_method, status)
                  VALUES ($order_id, $total, '$payment_method', 'pending')";
+    } else {
+        $payment_query = "INSERT INTO payments (order_id, amount, payment_method, status)
+                 VALUES ($order_id, $total, '$payment_method', 'complete')";
+    }
+
     if (!mysqli_query($conn, $payment_query)) {
         die("Payment processing failed: " . mysqli_error($conn));
     }
@@ -124,56 +137,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
                                 <div class="col-lg-6">
                                     <div class="default-form-box">
                                         <label>First Name <span>*</span></label>
-                                        <input type="text" value="<?php echo $row['firstname']; ?>" name="firstname">
+                                        <input type="text" value="<?php echo $row['firstname']; ?>" name="firstname" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="default-form-box">
                                         <label>Last Name <span>*</span></label>
-                                        <input type="text" value="<?php echo $row['lastname']; ?>" name="lastname">
+                                        <input type="text" value="<?php echo $row['lastname']; ?>" name="lastname" required>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="default-form-box">
                                         <label>Address</label>
-                                        <input type="text" name="address" value="<?php echo $row['address']; ?>">
+                                        <input type="text" name="address" value="<?php echo $row['address']; ?>" required>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="default-form-box">
                                         <label>City</label>
-                                        <input type="text" name="city" value="<?php echo $row['city']; ?>">
+                                        <input type="text" name="city" value="<?php echo $row['city']; ?>" required>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="default-form-box">
                                         <label>State</label>
-                                        <input type="text" name="state" value="<?php echo $row['state']; ?>">
+                                        <input type="text" name="state" value="<?php echo $row['state']; ?>" required>
                                     </div>
                                 </div>
 
                                 <div class="col-12">
                                     <div class="default-form-box">
                                         <label>Country</label>
-                                        <input type="text" name="country" value="<?php echo $row['country']; ?>">
+                                        <input type="text" name="country" value="<?php echo $row['country']; ?>" required>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="default-form-box">
                                         <label>Pincode</label>
-                                        <input type="text" name="pincode" value="<?php echo $row['pincode']; ?>">
+                                        <input type="text" name="pincode" value="<?php echo $row['pincode']; ?>" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="default-form-box">
                                         <label>Phone<span>*</span></label>
-                                        <input type="text" value="<?php echo $row['phone']; ?>" name="phone">
+                                        <input type="text" value="<?php echo $row['phone']; ?>" name="phone" required>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="default-form-box">
                                         <label> Email Address <span>*</span></label>
-                                        <input type="text" value="<?php echo $row['email']; ?>" name="email">
+                                        <input type="text" value="<?php echo $row['email']; ?>" name="email" required>
                                     </div>
                                 </div>
 

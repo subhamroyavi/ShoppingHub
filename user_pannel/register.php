@@ -11,6 +11,8 @@ if (!empty($_SESSION['user_id'])) {
 // Handle Registration
 if (isset($_POST['register'])) {
     // Sanitize and validate input data
+    $firstname = mysqli_real_escape_string($conn, $_POST['firstname']);
+    $lastname = mysqli_real_escape_string($conn, $_POST['lastname']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $phone = mysqli_real_escape_string($conn, $_POST['phone']);
     $password = $_POST['password'];
@@ -29,13 +31,13 @@ if (isset($_POST['register'])) {
     $result = mysqli_query($conn, $check_user);
 
     if ((mysqli_num_rows($result) > 0)) {
-        if($row = mysqli_fetch_assoc($result)){
-            if($row['email'] == $email){
+        if ($row = mysqli_fetch_assoc($result)) {
+            if ($row['email'] == $email) {
                 echo "<script>
                     alert('Email already exists!');
                     window.location.href = 'register.php';
                 </script>";
-            } else if($row['phone'] == $phone){
+            } else if ($row['phone'] == $phone) {
                 echo "<script>
                     alert('Phone number already exists!');
                     window.location.href = 'register.php';
@@ -49,7 +51,7 @@ if (isset($_POST['register'])) {
     }
 
     // Insert new user into the database
-    $insert_user = "INSERT INTO users (email, phone, password) VALUES ('$email', '$phone', '$hashed_password')";
+    $insert_user = "INSERT INTO users (firstname, lastname, email, phone, password) VALUES ('$firstname', '$lastname','$email', '$phone', '$hashed_password')";
     if (mysqli_query($conn, $insert_user)) {
         echo "<script>
                     window.location.href = 'login.php';
@@ -95,6 +97,16 @@ if (isset($_POST['register'])) {
                 <div class="account_form register" data-aos="fade-up" data-aos-delay="200">
                     <h3 class="text-center mb-4">Register</h3>
                     <form id="registrationForm" action="#" method="POST">
+                        <div class="form-group mb-3">
+                            <label for="firstname" class="form-label">First Name<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter your first name" required>
+                            <span class="error" id="firstnameError"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="lastname" class="form-label">Last Name<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter your last name" required>
+                            <span class="error" id="lastnameError"></span>
+                        </div>
                         <!-- Email Address -->
                         <div class="form-group mb-3">
                             <label for="email" class="form-label">Email address <span class="text-danger">*</span></label>
@@ -182,148 +194,203 @@ if (isset($_POST['register'])) {
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('registrationForm');
-        const submitButton = document.querySelector('button[name="register"]');
+    const form = document.getElementById('registrationForm');
+    const submitButton = document.querySelector('button[name="register"]');
 
-        // Form field elements
-        const emailInput = document.getElementById('email');
-        const phoneInput = document.getElementById('phone');
-        const passwordInput = document.getElementById('password');
-        const confirmPasswordInput = document.getElementById('confirm_password');
+    // Form field elements
+    const firstnameInput = document.getElementById('firstname');
+    const lastnameInput = document.getElementById('lastname');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirm_password');
 
-        // Initial state - disable submit button
-        submitButton.disabled = true;
+    // Initial state - disable submit button
+    submitButton.disabled = true;
 
-        // Function to validate all fields and enable/disable submit button
-        function validateForm() {
-            const isEmailValid = email_validation();
-            const isPhoneValid = phone_validation();
-            const isPasswordValid = password_validation();
-            const isConfirmPasswordValid = confirmPassword_validation();
+    // Function to validate all fields and enable/disable submit button
+    function validateForm() {
+        const isFirstNameValid = firstname_validation();
+        const isLastNameValid = lastname_validation();
+        const isEmailValid = email_validation();
+        const isPhoneValid = phone_validation();
+        const isPasswordValid = password_validation();
+        const isConfirmPasswordValid = confirmPassword_validation();
 
-            // Only enable the submit button if all validations pass
-            submitButton.disabled = !(isEmailValid && isPhoneValid && isPasswordValid && isConfirmPasswordValid);
+        // Only enable the submit button if all validations pass
+        submitButton.disabled = !(isFirstNameValid && isLastNameValid && isEmailValid && 
+                                isPhoneValid && isPasswordValid && isConfirmPasswordValid);
 
-            return isEmailValid && isPhoneValid && isPasswordValid && isConfirmPasswordValid;
+        return isFirstNameValid && isLastNameValid && isEmailValid && 
+               isPhoneValid && isPasswordValid && isConfirmPasswordValid;
+    }
+
+    // Function to validate first name
+    function firstname_validation() {
+        let firstname = firstnameInput;
+        let regex = /^[a-zA-Z]{2,50}$/;
+        
+        if (regex.test(firstname.value.trim())) {
+            firstname.classList.remove('is-invalid');
+            firstname.classList.add('is-valid');
+            document.getElementById("firstnameError").innerHTML = ``;
+            return true;
+        } else {
+            firstname.classList.add('is-invalid');
+            firstname.classList.remove('is-valid');
+            document.getElementById("firstnameError").innerHTML = 
+                `<strong>Please enter a valid first name (2-50 letters, no numbers or special characters)</strong>`;
+            return false;
         }
+    }
 
-        // Function to validate email
-        function email_validation() {
-            let email = emailInput;
-            let regex = /^[a-z0-9._%+-]+@[a-z.-]+\.[a-zA-Z]{2,}$/;
-            if (regex.test(email.value)) {
-                email.classList.remove('is-invalid');
-                email.classList.add('is-valid');
-                document.getElementById("emailError").innerHTML = ``;
-                return true;
-            } else {
-                email.classList.add('is-invalid');
-                email.classList.remove('is-valid');
-                document.getElementById("emailError").innerHTML = `<strong>Please enter a valid email address.</strong>`;
-                return false;
-            }
+    // Function to validate last name
+    function lastname_validation() {
+        let lastname = lastnameInput;
+        let regex = /^[a-zA-Z]{2,50}$/;
+        
+        if (regex.test(lastname.value.trim())) {
+            lastname.classList.remove('is-invalid');
+            lastname.classList.add('is-valid');
+            document.getElementById("lastnameError").innerHTML = ``;
+            return true;
+        } else {
+            lastname.classList.add('is-invalid');
+            lastname.classList.remove('is-valid');
+            document.getElementById("lastnameError").innerHTML = 
+                `<strong>Please enter a valid last name (2-50 letters, no numbers or special characters)</strong>`;
+            return false;
         }
+    }
 
-        // Function to validate phone number
-        function phone_validation() {
-            let phone_no = phoneInput;
-            let regex = /^[6-9][0-9]{9}$/;
-            if (regex.test(phone_no.value)) {
-                phone_no.classList.remove('is-invalid');
-                phone_no.classList.add('is-valid');
-                document.getElementById("phoneError").innerHTML = ``;
-                return true;
-            } else {
-                phone_no.classList.add('is-invalid');
-                phone_no.classList.remove('is-valid');
-                document.getElementById("phoneError").innerHTML = `<strong>Please enter a valid phone number.</strong>`;
-                return false;
-            }
+    // Function to validate email
+    function email_validation() {
+        let email = emailInput;
+        let regex = /^[a-z0-9._%+-]+@[a-z.-]+\.[a-zA-Z]{2,}$/;
+        if (regex.test(email.value)) {
+            email.classList.remove('is-invalid');
+            email.classList.add('is-valid');
+            document.getElementById("emailError").innerHTML = ``;
+            return true;
+        } else {
+            email.classList.add('is-invalid');
+            email.classList.remove('is-valid');
+            document.getElementById("emailError").innerHTML = `<strong>Please enter a valid email address.</strong>`;
+            return false;
         }
+    }
 
-        // Function to validate password
-        function password_validation() {
-            let password = passwordInput;
-            let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-            if (regex.test(password.value)) {
-                password.classList.remove('is-invalid');
-                password.classList.add('is-valid');
-                document.getElementById("passwordError").innerHTML = ``;
-                return true;
-            } else {
-                password.classList.add('is-invalid');
-                password.classList.remove('is-valid');
-                document.getElementById("passwordError").innerHTML = `<strong><p>Password must contain:</p></strong> 
-            <p>Minimum 8 characters</p>
-            <p>At least 1 uppercase letter (A-Z)</p>
-            <p>At least 1 lowercase letter (a-z)</p>
-            <p>At least 1 number (0-9)</p>
-            <p>At least 1 special character (!@#$%^&*)</p>`;
-                return false;
-            }
+    // Function to validate phone number
+    function phone_validation() {
+        let phone_no = phoneInput;
+        let regex = /^[6-9][0-9]{9}$/;
+        if (regex.test(phone_no.value)) {
+            phone_no.classList.remove('is-invalid');
+            phone_no.classList.add('is-valid');
+            document.getElementById("phoneError").innerHTML = ``;
+            return true;
+        } else {
+            phone_no.classList.add('is-invalid');
+            phone_no.classList.remove('is-valid');
+            document.getElementById("phoneError").innerHTML = `<strong>Please enter a valid phone number.</strong>`;
+            return false;
         }
+    }
 
-        // Function to confirm password
-        function confirmPassword_validation() {
-            let confirm_password = confirmPasswordInput;
-            let password = passwordInput.value;
+    // Function to validate password
+    function password_validation() {
+        let password = passwordInput;
+        let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (regex.test(password.value)) {
+            password.classList.remove('is-invalid');
+            password.classList.add('is-valid');
+            document.getElementById("passwordError").innerHTML = ``;
+            return true;
+        } else {
+            password.classList.add('is-invalid');
+            password.classList.remove('is-valid');
+            document.getElementById("passwordError").innerHTML = 
+                `<strong><p>Password must contain:</p></strong> 
+                <p>Minimum 8 characters</p>
+                <p>At least 1 uppercase letter (A-Z)</p>
+                <p>At least 1 lowercase letter (a-z)</p>
+                <p>At least 1 number (0-9)</p>
+                <p>At least 1 special character (!@#$%^&*)</p>`;
+            return false;
+        }
+    }
 
-            // Check if the confirm password matches the password
-            if (confirm_password.value !== password) {
-                confirm_password.classList.add('is-invalid');
-                confirm_password.classList.remove('is-valid');
-                document.getElementById("confirmPasswordError").innerHTML = `<strong>Passwords do not match</strong>`;
-                return false;
-            }
+    // Function to confirm password
+    function confirmPassword_validation() {
+        let confirm_password = confirmPasswordInput;
+        let password = passwordInput.value;
 
-            // If the password field is valid and passwords match
-            if (passwordInput.classList.contains('is-valid')) {
-                confirm_password.classList.remove('is-invalid');
-                confirm_password.classList.add('is-valid');
-                document.getElementById("confirmPasswordError").innerHTML = ``;
-                return true;
-            }
-
+        // Check if the confirm password matches the password
+        if (confirm_password.value !== password) {
+            confirm_password.classList.add('is-invalid');
+            confirm_password.classList.remove('is-valid');
+            document.getElementById("confirmPasswordError").innerHTML = `<strong>Passwords do not match</strong>`;
             return false;
         }
 
-        // Add input event listeners to all fields for real-time validation
-        emailInput.addEventListener('input', function() {
-            email_validation();
-            validateForm();
-        });
+        // If the password field is valid and passwords match
+        if (passwordInput.classList.contains('is-valid')) {
+            confirm_password.classList.remove('is-invalid');
+            confirm_password.classList.add('is-valid');
+            document.getElementById("confirmPasswordError").innerHTML = ``;
+            return true;
+        }
 
-        phoneInput.addEventListener('input', function() {
-            phone_validation();
-            validateForm();
-        });
+        return false;
+    }
 
-        passwordInput.addEventListener('input', function() {
-            password_validation();
-            // When password changes, we need to revalidate confirm password
-            if (confirmPasswordInput.value) {
-                confirmPassword_validation();
-            }
-            validateForm();
-        });
+    // Add input event listeners to all fields for real-time validation
+    firstnameInput.addEventListener('input', function() {
+        firstname_validation();
+        validateForm();
+    });
 
-        confirmPasswordInput.addEventListener('input', function() {
+    lastnameInput.addEventListener('input', function() {
+        lastname_validation();
+        validateForm();
+    });
+
+    emailInput.addEventListener('input', function() {
+        email_validation();
+        validateForm();
+    });
+
+    phoneInput.addEventListener('input', function() {
+        phone_validation();
+        validateForm();
+    });
+
+    passwordInput.addEventListener('input', function() {
+        password_validation();
+        // When password changes, we need to revalidate confirm password
+        if (confirmPasswordInput.value) {
             confirmPassword_validation();
-            validateForm();
-        });
+        }
+        validateForm();
+    });
 
-        // Form submission handler
-        form.addEventListener('submit', function(event) {
-            // Even if button is enabled, double-check validation
-            if (!validateForm()) {
-                event.preventDefault();
-                alert("Please fix the errors in the form before submitting.");
-            }
-        });
+    confirmPasswordInput.addEventListener('input', function() {
+        confirmPassword_validation();
+        validateForm();
+    });
 
-        // Add visual feedback with CSS
-        const style = document.createElement('style');
-        style.innerHTML = `
+    // Form submission handler
+    form.addEventListener('submit', function(event) {
+        // Even if button is enabled, double-check validation
+        if (!validateForm()) {
+            event.preventDefault();
+            alert("Please fix the errors in the form before submitting.");
+        }
+    });
+
+    // Add visual feedback with CSS
+    const style = document.createElement('style');
+    style.innerHTML = `
         .is-valid {
             border-color: #198754 !important;
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
@@ -344,9 +411,16 @@ if (isset($_POST['register'])) {
             cursor: not-allowed;
             opacity: 0.6;
         }
+        
+        #firstnameError, #lastnameError, #emailError, 
+        #phoneError, #passwordError, #confirmPasswordError {
+            color: #dc3545;
+            font-size: 0.875em;
+            margin-top: 0.25rem;
+        }
     `;
-        document.head.appendChild(style);
-    });
+    document.head.appendChild(style);
+});
 </script>
 
 <script>
