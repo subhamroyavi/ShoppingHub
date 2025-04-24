@@ -30,8 +30,7 @@ include "include/connection.php";
                 <div class="col-12">
                     <div class="mapouter">
                         <div class="gmap_canvas">
-                            <iframe id="gmap_canvas"
-                                src="https://maps.google.com/maps?q=121%20King%20St%2C%20Melbourne%20VIC%203000%2C%20Australia&amp;t=&amp;z=13&amp;ie=UTF8&amp;iwloc=&amp;output=embed"></iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3582.0468740088168!2d89.464411!3d26.130014600000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39e2e1599db70899%3A0x1ea5f4a6a0b48a35!2sSitala%20Bari%20Rd%2C%20Dinhata%2C%20West%20Bengal%20736135!5e0!3m2!1sen!2sin!4v1745422616716!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
                 </div>
@@ -63,8 +62,8 @@ include "include/connection.php";
                                     <i class="fa fa-globe"></i>
                                 </div>
                                 <div class="contact-details-content contact-phone">
-                                    <a href="mailto:demo@example.com">demo@example.com</a>
-                                    <a href="http://www.example.com/">www.example.com</a>
+                                    <a href="mailto:shoppinghub@gmail.com">shoppinghub@gmail.com</a>
+                                    <a href="http://www.shoppinghub.com/">www.shoppinghub.com</a>
                                 </div>
                             </div> <!-- End Contact Details Single Item -->
                             <!-- Start Contact Details Single Item -->
@@ -81,11 +80,11 @@ include "include/connection.php";
                         <div class="contact-social">
                             <h4>Follow Us</h4>
                             <ul>
-                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-youtube"></i></a></li>
-                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                                <li><a href=""><i class="fa fa-facebook"></i></a></li>
+                                <li><a href=""><i class="fa fa-twitter"></i></a></li>
+                                <li><a href=""><i class="fa fa-youtube"></i></a></li>
+                                <li><a href=""><i class="fa fa-google-plus"></i></a></li>
+                                <li><a href=""><i class="fa fa-instagram"></i></a></li>
                             </ul>
                         </div> <!-- End Contact Social Link -->
                     </div> <!-- End Contact Details -->

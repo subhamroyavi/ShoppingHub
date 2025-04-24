@@ -56,6 +56,11 @@
                         <p>User Oreder</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="shipping.php" class="nav-link"> <i class="nav-icon bi bi-truck"></i>
+                        <p>Shipping</p>
+                    </a>
+                </li>
 
             </ul> <!--end::Sidebar Menu-->
         </nav>
