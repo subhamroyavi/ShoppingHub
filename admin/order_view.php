@@ -32,9 +32,14 @@ $payment_result = mysqli_query($conn, $payment_sql);
 $payment = mysqli_fetch_assoc($payment_result);
 
 // Fetch shipping info
-$shipping_sql = "SELECT * FROM shipping WHERE order_id = $order_id";
+$shipping_sql = "SELECT * FROM orders WHERE order_id = $order_id";
 $shipping_result = mysqli_query($conn, $shipping_sql);
 $shipping = mysqli_fetch_assoc($shipping_result);
+
+$shipping_sql = "SELECT * FROM shipping WHERE order_id = $order_id";
+$shipping_result = mysqli_query($conn, $shipping_sql);
+$shipping_details = mysqli_fetch_assoc($shipping_result);
+
 
 // Fetch status history
 $history_sql = "SELECT * FROM order_status_history 
@@ -71,17 +76,14 @@ $history_result = mysqli_query($conn, $history_sql);
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h5 class="card-title mb-0">Order Summary</h5>
                                     <div>
-                                        <span class="badge bg-<?= 
-                                            $order['status'] == 'completed' ? 'success' : 
-                                            ($order['status'] == 'processing' ? 'info' : 
-                                            ($order['status'] == 'cancelled' ? 'danger' : 'warning')) 
-                                        ?> me-2">
+                                        <span class="badge bg-<?=
+                                                                $order['status'] == 'completed' ? 'success' : ($order['status'] == 'processing' ? 'info' : ($order['status'] == 'cancelled' ? 'danger' : 'warning'))
+                                                                ?> me-2">
                                             <?= ucfirst($order['status']) ?>
                                         </span>
-                                        <span class="badge bg-<?= 
-                                            $order['payment_status'] == 'paid' ? 'success' : 
-                                            ($order['payment_status'] == 'refunded' ? 'info' : 'danger') 
-                                        ?>">
+                                        <span class="badge bg-<?=
+                                                                $order['payment_status'] == 'paid' ? 'success' : ($order['payment_status'] == 'refunded' ? 'info' : 'danger')
+                                                                ?>">
                                             <?= ucfirst($order['payment_status']) ?>
                                         </span>
                                     </div>
@@ -125,20 +127,20 @@ $history_result = mysqli_query($conn, $history_sql);
                                         </thead>
                                         <tbody>
                                             <?php while ($item = mysqli_fetch_assoc($items_result)): ?>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <img src="<?= $item['image'] ?>" alt="<?= htmlspecialchars($item['name']) ?>" class="img-thumbnail me-3" width="60">
-                                                        <div>
-                                                            <h6 class="mb-0"><?= htmlspecialchars($item['name']) ?></h6>
-                                                            <small class="text-muted">SKU: <?= $item['product_id'] ?></small>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="<?= $item['image'] ?>" alt="<?= htmlspecialchars($item['name']) ?>" class="img-thumbnail me-3" width="60">
+                                                            <div>
+                                                                <h6 class="mb-0"><?= htmlspecialchars($item['name']) ?></h6>
+                                                                <small class="text-muted">SKU: <?= $item['product_id'] ?></small>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td>$<?= number_format($item['unit_price'], 2) ?></td>
-                                                <td><?= $item['quantity'] ?></td>
-                                                <td>$<?= number_format($item['subtotal'], 2) ?></td>
-                                            </tr>
+                                                    </td>
+                                                    <td>$<?= number_format($item['unit_price'], 2) ?></td>
+                                                    <td><?= $item['quantity'] ?></td>
+                                                    <td>$<?= number_format($item['subtotal'], 2) ?></td>
+                                                </tr>
                                             <?php endwhile; ?>
                                         </tbody>
                                         <tfoot>
@@ -160,26 +162,34 @@ $history_result = mysqli_query($conn, $history_sql);
                             </div>
                         </div>
 
+                        <!-- Order Status History Section -->
                         <div class="card mb-4">
                             <div class="card-header">
                                 <h5 class="card-title mb-0">Order Status History</h5>
                             </div>
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">
-                                    <?php while ($history = mysqli_fetch_assoc($history_result)): ?>
-                                    <li class="list-group-item">
-                                        <div class="d-flex justify-content-between">
-                                            <div>
-                                                <strong><?= ucfirst($history['status']) ?></strong>
-                                                <?php if ($history['notes']): ?>
-                                                <p class="mb-0"><small><?= htmlspecialchars($history['notes']) ?></small></p>
-                                                <?php endif; ?>
+                                    <?php
+                                    $history_sql = "SELECT * FROM order_status_history 
+                                                    WHERE order_id = $order_id 
+                                                    ORDER BY status_date DESC";
+                                    $history_result = mysqli_query($conn, $history_sql);
+
+                                    while ($history = mysqli_fetch_assoc($history_result)):
+                                    ?>
+                                        <li class="list-group-item">
+                                            <div class="d-flex justify-content-between">
+                                                <div>
+                                                    <strong><?= ucfirst($history['status']) ?></strong>
+                                                    <?php if ($history['notes']): ?>
+                                                        <p class="mb-0"><small><?= htmlspecialchars($history['notes']) ?></small></p>
+                                                    <?php endif; ?>
+                                                </div>
+                                                <div class="text-muted">
+                                                    <small><?= date('M d, Y h:i A', strtotime($history['status_date'])) ?></small>
+                                                </div>
                                             </div>
-                                            <div class="text-muted">
-                                                <small><?= date('M d, Y h:i A', strtotime($history['status_date'])) ?></small>
-                                            </div>
-                                        </div>
-                                    </li>
+                                        </li>
                                     <?php endwhile; ?>
                                 </ul>
                             </div>
@@ -194,23 +204,21 @@ $history_result = mysqli_query($conn, $history_sql);
                             <div class="card-body">
                                 <?php if ($shipping): ?>
                                     <p><strong>Shipping Address:</strong><br>
-                                    <?= nl2br(htmlspecialchars($order['shipping_address'])) ?></p>
-                                    
-                                    <p><strong>Carrier:</strong> <?= $shipping['carrier'] ?: '—' ?></p>
-                                    <p><strong>Tracking Number:</strong> <?= $shipping['tracking_number'] ?: '—' ?></p>
-                                    <p><strong>Status:</strong> 
-                                        <span class="badge bg-<?= 
-                                            $shipping['status'] == 'delivered' ? 'success' : 
-                                            ($shipping['status'] == 'shipped' ? 'info' : 
-                                            ($shipping['status'] == 'processing' ? 'warning' : 'secondary')) 
-                                        ?>">
-                                            <?= ucfirst($shipping['status']) ?>
+                                        <?= nl2br(htmlspecialchars($order['shipping_address'])) ?></p>
+
+                                    <p><strong>Carrier:</strong> <?= $shipping_details['carrier'] ?: '—' ?></p>
+                                    <p><strong>Tracking Number:</strong> <?= $shipping_details['tracking_number'] ?: '—' ?></p>
+                                    <p><strong>Status:</strong>
+                                        <span class="badge bg-<?=
+                                                                $shipping_details['status'] == 'delivered' ? 'success' : ($shipping['status'] == 'shipped' ? 'info' : ($shipping['status'] == 'processing' ? 'warning' : 'secondary'))
+                                                                ?>">
+                                            <?= ucfirst($shipping_details['status']) ?>
                                         </span>
                                     </p>
-                                    <?php if ($shipping['estimated_delivery']): ?>
-                                        <p><strong>Estimated Delivery:</strong> <?= date('M d, Y', strtotime($shipping['estimated_delivery'])) ?></p>
+                                    <?php if ($shipping_details['estimated_delivery']): ?>
+                                        <p><strong>Estimated Delivery:</strong> <?= date('M d, Y', strtotime($shipping_details['estimated_delivery'])) ?></p>
                                     <?php endif; ?>
-                                    <?php if ($shipping['actual_delivery']): ?>
+                                    <?php if ($shipping_details['actual_delivery']): ?>
                                         <p><strong>Delivered On:</strong> <?= date('M d, Y', strtotime($shipping['actual_delivery'])) ?></p>
                                     <?php endif; ?>
                                 <?php else: ?>
@@ -228,11 +236,10 @@ $history_result = mysqli_query($conn, $history_sql);
                                     <p><strong>Payment Method:</strong> <?= ucfirst(str_replace('_', ' ', $payment['payment_method'])) ?></p>
                                     <p><strong>Amount Paid:</strong> $<?= number_format($payment['amount'], 2) ?></p>
                                     <p><strong>Transaction ID:</strong> <?= $payment['transaction_id'] ?: '—' ?></p>
-                                    <p><strong>Status:</strong> 
-                                        <span class="badge bg-<?= 
-                                            $payment['status'] == 'completed' ? 'success' : 
-                                            ($payment['status'] == 'pending' ? 'warning' : 'danger') 
-                                        ?>">
+                                    <p><strong>Status:</strong>
+                                        <span class="badge bg-<?=
+                                                                $payment['status'] == 'completed' ? 'success' : ($payment['status'] == 'pending' ? 'warning' : 'danger')
+                                                                ?>">
                                             <?= ucfirst($payment['status']) ?>
                                         </span>
                                     </p>
@@ -250,7 +257,7 @@ $history_result = mysqli_query($conn, $history_sql);
                             <div class="card-body">
                                 <form action="order_update.php" method="POST">
                                     <input type="hidden" name="order_id" value="<?= $order_id ?>">
-                                    
+
                                     <div class="mb-3">
                                         <label class="form-label">Update Status</label>
                                         <select class="form-select" name="status">
@@ -261,7 +268,7 @@ $history_result = mysqli_query($conn, $history_sql);
                                             <option value="cancelled" <?= $order['status'] == 'cancelled' ? 'selected' : '' ?>>Cancelled</option>
                                         </select>
                                     </div>
-                                    
+
                                     <div class="mb-3">
                                         <label class="form-label">Update Payment Status</label>
                                         <select class="form-select" name="payment_status">
@@ -270,34 +277,34 @@ $history_result = mysqli_query($conn, $history_sql);
                                             <option value="refunded" <?= $order['payment_status'] == 'refunded' ? 'selected' : '' ?>>Refunded</option>
                                         </select>
                                     </div>
-                                    
+
                                     <?php if ($shipping): ?>
-                                    <div class="mb-3">
-                                        <label class="form-label">Update Shipping Status</label>
-                                        <select class="form-select" name="shipping_status">
-                                            <option value="processing" <?= $shipping['status'] == 'processing' ? 'selected' : '' ?>>Processing</option>
-                                            <option value="shipped" <?= $shipping['status'] == 'shipped' ? 'selected' : '' ?>>Shipped</option>
-                                            <option value="in_transit" <?= $shipping['status'] == 'in_transit' ? 'selected' : '' ?>>In Transit</option>
-                                            <option value="delivered" <?= $shipping['status'] == 'delivered' ? 'selected' : '' ?>>Delivered</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="mb-3">
-                                        <label class="form-label">Tracking Number</label>
-                                        <input type="text" class="form-control" name="tracking_number" value="<?= $shipping['tracking_number'] ?>">
-                                    </div>
+                                        <!-- <div class="mb-3">
+                                            <label class="form-label">Update Shipping Status</label>
+                                            <select class="form-select" name="shipping_status">
+                                                <option value="processing" <?= $shipping['status'] == 'processing' ? 'selected' : '' ?>>Processing</option>
+                                                <option value="shipped" <?= $shipping['status'] == 'shipped' ? 'selected' : '' ?>>Shipped</option>
+                                                <option value="in_transit" <?= $shipping['status'] == 'in_transit' ? 'selected' : '' ?>>In Transit</option>
+                                                <option value="delivered" <?= $shipping['status'] == 'delivered' ? 'selected' : '' ?>>Delivered</option>
+                                            </select>
+                                        </div> -->
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Tracking Number</label>
+                                            <input type="text" class="form-control" name="tracking_number" value="<?= $shipping['order_id'] ?>" disabled>
+                                        </div>
                                     <?php endif; ?>
-                                    
+
                                     <div class="mb-3">
                                         <label class="form-label">Notes</label>
                                         <textarea class="form-control" name="notes" rows="3"></textarea>
                                     </div>
-                                    
+
                                     <button type="submit" class="btn btn-primary w-100">Update Order</button>
                                 </form>
-                                
+
                                 <hr>
-                                
+
                                 <div class="d-grid gap-2">
                                     <a href="#" class="btn btn-outline-success">Print Invoice</a>
                                     <a href="#" class="btn btn-outline-primary">Email Customer</a>

@@ -634,6 +634,7 @@ if (!$category_result) {
             "autoWidth": false, // Auto column width
             "responsive": true, // Make table responsive
             "pageLength": 10, // Default records per page
+            "order": [[0, 'desc']],
             "lengthMenu": [
                 [10, 25, 50, -1],
                 [10, 25, 50, "All"]

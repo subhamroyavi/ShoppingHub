@@ -9,6 +9,8 @@ if (isset($_POST['order_id'])) {
     $status = isset($_POST['status']) ? mysqli_real_escape_string($conn, $_POST['status']) : '';
     $payment_status = isset($_POST['payment_status']) ? mysqli_real_escape_string($conn, $_POST['payment_status']) : '';
     $update_order_status = mysqli_query($conn, "UPDATE `orders` SET `status` = '$status', `payment_status` = '$payment_status' WHERE `order_id` = '$order_id'");
+    $update_order_status = mysqli_query($conn, "UPDATE `payments` SET `status` = '$payment_status' WHERE `order_id` = '$order_id'");
+    $order_status_history = mysqli_query($conn, "INSERT INTO `order_status_history`(`status`, `order_id`) VALUES ('$status', '$order_id') ");
 
     if ($update_order_status) {
         echo "<script>

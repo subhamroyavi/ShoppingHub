@@ -47,36 +47,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['place_order'])) {
     $username = mysqli_real_escape_string($conn, $name);
     $payment_method = mysqli_real_escape_string($conn, $_POST['payment_method']);
 
-    $order_query = "INSERT INTO orders (user_id, total_amount, status, payment_status, name, shipping_address)
-               VALUES ($user_id, $total, 'pending', 'unpaid', '$username', '$shipping_address')";
-    if (!mysqli_query($conn, $order_query)) {
-        die("Order creation failed: " . mysqli_error($conn));
-    }
-    $order_id = mysqli_insert_id($conn);
 
-    foreach ($cart_items as $item) {
-        $insert_item = "INSERT INTO order_items (order_id, product_id, quantity, unit_price, subtotal)
-                   VALUES ($order_id, {$item['product_id']}, {$item['qty']}, {$item['price']}, {$item['subtotal']})";
-        if (!mysqli_query($conn, $insert_item)) {
-            die("Order item insertion failed: " . mysqli_error($conn));
+
+    if ($payment_method == 'cod') {
+        $order_query = "INSERT INTO orders (user_id, total_amount, status, payment_status, name, shipping_address)
+        VALUES ($user_id, $total, 'pending', 'unpaid', '$username', '$shipping_address')";
+        if (!mysqli_query($conn, $order_query)) {
+            die("Order creation failed: " . mysqli_error($conn));
+        }
+        $order_id = mysqli_insert_id($conn);
+
+        foreach ($cart_items as $item) {
+            $insert_item = "INSERT INTO order_items (order_id, product_id, quantity, unit_price, subtotal)
+            VALUES ($order_id, {$item['product_id']}, {$item['qty']}, {$item['price']}, {$item['subtotal']})";
+            if (!mysqli_query($conn, $insert_item)) {
+                die("Order item insertion failed: " . mysqli_error($conn));
+            }
+        }
+
+        $payment_query = "INSERT INTO payments (order_id, amount, payment_method, status)
+                 VALUES ('$order_id', '$total', '$payment_method', 'unpaid')";
+        if (!mysqli_query($conn, $payment_query)) {
+            die("Payment processing failed: " . mysqli_error($conn));
+        }
+    } else {
+        $order_query = "INSERT INTO orders (user_id, total_amount, status, payment_status, name, shipping_address)
+        VALUES ($user_id, $total, 'pending', 'paid', '$username', '$shipping_address')";
+        if (!mysqli_query($conn, $order_query)) {
+            die("Order creation failed: " . mysqli_error($conn));
+        }
+        $order_id = mysqli_insert_id($conn);
+
+        foreach ($cart_items as $item) {
+            $insert_item = "INSERT INTO order_items (order_id, product_id, quantity, unit_price, subtotal)
+            VALUES ($order_id, {$item['product_id']}, {$item['qty']}, {$item['price']}, {$item['subtotal']})";
+            if (!mysqli_query($conn, $insert_item)) {
+                die("Order item insertion failed: " . mysqli_error($conn));
+            }
+        }
+        $payment_query = "INSERT INTO payments (order_id, amount, payment_method, status)
+                 VALUES ('$order_id', '$total', '$payment_method', 'paid')";
+        if (!mysqli_query($conn, $payment_query)) {
+            die("Payment processing failed: " . mysqli_error($conn));
         }
     }
 
-    if ($payment_method == 'cod') {
-        $payment_query = "INSERT INTO payments (order_id, amount, payment_method, status)
-                 VALUES ($order_id, $total, '$payment_method', 'pending')";
-    } else {
-        $payment_query = "INSERT INTO payments (order_id, amount, payment_method, status)
-                 VALUES ($order_id, $total, '$payment_method', 'complete')";
-    }
-
-    if (!mysqli_query($conn, $payment_query)) {
-        die("Payment processing failed: " . mysqli_error($conn));
+    $order_status_query = "INSERT INTO order_status_history (order_id, status) VALUES ('$order_id', 'pending')";
+    if (!mysqli_query($conn, $order_status_query)) {
+        die("Order processing failed: " . mysqli_error($conn));
     }
 
     $clear_cart = "DELETE ci FROM cart_items ci
               JOIN carts c ON ci.cart_id = c.id
-              WHERE c.user_id = $user_id";
+              WHERE c.user_id = '$user_id'";
     if (!mysqli_query($conn, $clear_cart)) {
         die("Cart clearing failed: " . mysqli_error($conn));
     }

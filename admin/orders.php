@@ -43,7 +43,7 @@ $sql_run = mysqli_query($conn, $sql);
                             <div class="card-header">
                                 <div class="row align-items-center">
                                     <div class="col-md-4 col-sm-12 mb-3 mb-md-0">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filterModal">
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#filterModal">
                                             <i class="fas fa-filter me-2"></i>Filter
                                         </button>
                                     </div>
@@ -220,6 +220,7 @@ $sql_run = mysqli_query($conn, $sql);
             "autoWidth": false,
             "responsive": true,
             "pageLength": 10,
+            "order": [[0, 'desc']],
             "lengthMenu": [
                 [10, 25, 50, -1],
                 [10, 25, 50, "All"]
